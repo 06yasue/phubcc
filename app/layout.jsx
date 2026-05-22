@@ -1,4 +1,5 @@
-import Footer from '../components/Footer';
+import './global.css';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'VideoApp',
@@ -16,11 +17,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        {/* Konten tiap halaman akan dirender di sini */}
+        {/* Konten dari tiap halaman (page.jsx) akan dirender di dalam div ini */}
         <div style={{ minHeight: '80vh' }}>
           {children}
         </div>
-        {/* Footer ada di semua halaman */}
+        
+        {/* Footer akan otomatis selalu muncul di bagian bawah setiap halaman */}
         <Footer />
       </body>
     </html>
