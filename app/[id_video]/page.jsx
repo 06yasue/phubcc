@@ -49,7 +49,7 @@ export default async function FakeVideoPage({ params }) {
   }
 
   return (
-    <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
+    <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
       <div className="container" style={{ maxWidth: '900px' }}>
         
         {/* 1. AREA HEADER (Logo & Site Name 3D Centered) */}
