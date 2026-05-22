@@ -79,9 +79,9 @@ export default async function FakeVideoPage({ params }) {
           </h1>
         </div>
 
-       {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
+        {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto 15px auto', width: '100%', overflow: 'hidden' }}>
+          <div style={{ margin: '0 auto 10px auto', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
             {siteSettings.ads_desktop && (
               <div className="hidden-xs" style={{ display: 'flex', justifyContent: 'center', width: '100%' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
