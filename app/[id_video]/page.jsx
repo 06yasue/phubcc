@@ -118,21 +118,20 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-       {/* AREA ADS DESKTOP & MOBILE (Nempel parah tanpa jarak) */}
+      {/* AREA ADS DESKTOP & MOBILE (Nempel Ekstrem & Pasti di Tengah) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', margin: '0', padding: '0', overflow: 'hidden' }}>
+          <div style={{ width: '100%', textAlign: 'center', margin: '0 0 5px 0', padding: '0', lineHeight: 0, fontSize: 0 }}>
             {siteSettings.ads_desktop && (
-              <div className="hidden-xs" style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
             {siteSettings.ads_mobile && (
-              <div className="visible-xs-block" style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
             )}
           </div>
         )}
 
-
         {/* 4. FAKE VIDEO PLAYER */}
-        <form id="main-video-form" action={grantAccess}>
+          <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
           <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none' }}>
             <div id="player-container" style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', border: '1px solid #334155', transition: 'all 0.3s' }}>
               <img id="player-thumb" src={thumbUrl} alt="Thumbnail" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85, transition: 'opacity 0.3s' }} />
