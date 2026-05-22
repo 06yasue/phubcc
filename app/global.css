@@ -1,25 +1,46 @@
 /* app/global.css */
 
-/* Reset dasar agar lebih rapi */
+/* 1. Box Sizing Reset: Biar padding & border gak merusak ukuran layout */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Reset Dasar & Anti Layar Goyang (Horizontal Scroll) */
 html,
 body {
   padding: 0;
   margin: 0;
-  background-color: #fcfcfc; /* Warna latar belakang sedikit abu-abu yang nyaman di mata */
+  /* Sesuaikan warna background dengan tema kita */
+  background-color: #0f172a; 
+  overflow-x: hidden; /* Cegah layar bisa digeser ke kanan/kiri */
 }
 
-/* Mengubah font default Bootstrap menjadi sedikit lebih modern (Opsional) */
+/* 3. Terapkan Google Font Noto Sans JP Secara Global (Wajib pakai !important biar prioritas utama) */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
-/* Memperbaiki jarak iframe agar pas dengan container Bootstrap */
+/* 4. Anti-Teks Ngeleber: Memaksa teks/kata panjang turun ke bawah otomatis */
+h1, h2, h3, h4, h5, h6, p, a, span, div {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 5. Gambar Fleksibel: Pastikan gambar gak pernah melebihi area box-nya */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. Memperbaiki jarak iframe agar pas dengan container Bootstrap */
 iframe {
   border: none;
   width: 100%;
   height: 100%;
 }
-/* Menghilangkan garis hitam (outline) saat card/link diklik */
+
+/* 7. Menghilangkan garis hitam (outline) / blok biru saat card/link/tombol diklik di HP */
 .pop-card,
 .pop-card:focus,
 .pop-card:active,
