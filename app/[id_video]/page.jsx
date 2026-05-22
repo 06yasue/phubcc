@@ -55,7 +55,7 @@ export default async function FakeVideoPage({ params }) {
     redirect(`/tube_${id_video}/${slugTitle}`);
   }
 
-    return (
+     return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
       <div className="container" style={{ maxWidth: '900px' }}>
         
@@ -79,18 +79,11 @@ export default async function FakeVideoPage({ params }) {
           </h1>
         </div>
 
-        {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
-        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ margin: '0 auto 10px auto', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
-            {siteSettings.ads_desktop && (
-              <div className="hidden-xs" style={{ display: 'flex', justifyContent: 'center', width: '100%' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
-            )}
-            {siteSettings.ads_mobile && (
-              <div className="visible-xs-block" style={{ display: 'flex', justifyContent: 'center', width: '100%' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
-            )}
-          </div>
+        {/* 2. AREA IKLAN HEADER (Taruh di atas Judul) */}
+        {siteSettings?.ads_head && (
+          <div style={{ display: 'table', margin: '0 auto 15px auto', overflow: 'hidden' }} 
+               dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
         )}
-
 
         {/* 3. JUDUL & HITCOUNT */}
         <h3 style={{ 
@@ -105,7 +98,7 @@ export default async function FakeVideoPage({ params }) {
           {videoData.title}
         </h3>
       
-        <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '15px' }}>
           {/* Ikon & Jumlah Views */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#3b82f6' }} viewBox="0 0 24 24">
@@ -125,9 +118,9 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
+        {/* AREA ADS DESKTOP & MOBILE (Nempel pas di atas Player) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ textAlign: 'center', marginBottom: '20px', width: '100%', overflow: 'hidden' }}>
+          <div style={{ display: 'table', margin: '0 auto 5px auto', overflow: 'hidden' }}>
             {siteSettings.ads_desktop && (
               <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
@@ -157,9 +150,9 @@ export default async function FakeVideoPage({ params }) {
           </button>
         </form>
 
-        {/* 5. SLOT NATIVE BANNER ADS (Dinamis dari Database) */}
+        {/* 5. SLOT NATIVE BANNER ADS (Nempel pas di bawah Player) */}
         {siteSettings?.ads_native && (
-          <div style={{ marginTop: '20px', width: '100%', textAlign: 'center', overflow: 'hidden', display: 'flex', justifyContent: 'center' }} 
+          <div style={{ display: 'table', margin: '5px auto 0 auto', overflow: 'hidden' }} 
                dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
         )}
 
@@ -202,9 +195,9 @@ export default async function FakeVideoPage({ params }) {
           ))}
         </div>
 
-        {/* 7. AREA ADS FOOTER (Dinamis dari Database, paling bawah) */}
+        {/* 7. AREA ADS FOOTER (Paling bawah) */}
         {siteSettings?.ads_footer && (
-          <div style={{ marginTop: '20px', width: '100%', textAlign: 'center', overflow: 'hidden' }} 
+          <div style={{ display: 'table', margin: '15px auto 0 auto', overflow: 'hidden' }} 
                dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
         )}
 
