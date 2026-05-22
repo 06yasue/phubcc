@@ -90,10 +90,25 @@ export default async function FakeVideoPage({ params }) {
         }} title={videoData.title}>
           {videoData.title}
         </h3>
-        
-        <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
-          <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#3b82f6' }}>visibility</span>
-          <span style={{ fontWeight: '600' }}>{videoData.hitcount} Views</span>
+      
+          <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {/* Ikon & Jumlah Views */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#3b82f6' }} viewBox="0 0 24 24">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+            <span style={{ fontWeight: '600' }}>{videoData.hitcount} Views</span>
+          </div>
+
+          {/* Ikon & Tanggal Dibuat (Tambahan Baru) */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#64748b' }} viewBox="0 0 24 24">
+              <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+            </svg>
+            <span style={{ fontWeight: '600' }}>
+              {videoData.created_at ? new Date(videoData.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
+            </span>
+          </div>
         </div>
 
         {/* 4. FAKE VIDEO PLAYER (Efek Loading pas diklik) */}
