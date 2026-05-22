@@ -53,7 +53,11 @@ export default async function FakeVideoPage({ params }) {
       
       {/* 1. AREA HEADER (Logo & Site Name 3D Centered) */}
       <div style={{ textAlign: 'center', marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        
+        <img 
+          src="/logo.png" 
+          alt="Logo" 
+          style={{ height: '50px', marginBottom: '10px', objectFit: 'contain' }} 
+        />
         <h1 style={{ 
           margin: 0, 
           fontSize: '34px', 
