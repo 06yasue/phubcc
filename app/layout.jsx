@@ -24,7 +24,7 @@ export const metadata = {
     siteName: siteConfig.sitename,
     images: [
       {
-        url: '/logo.png', // Gambar otomatis muncul pas share link
+        url: '/oge.png', // Gambar otomatis muncul pas share link
         width: 800,
         height: 600,
         alt: `${siteConfig.sitename} Thumbnail`,
@@ -39,7 +39,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: `${siteConfig.sitename} - Premium Video Content`,
     description: `Stream the best content directly on ${siteConfig.sitename}.`,
-    images: ['/logo.png'],
+    images: ['/oge.png'],
   },
 };
 
