@@ -45,7 +45,7 @@ export default async function RealVideoPage({ params }) {
   // UI VIP PLAYER (FLOATING HEADER & TANPA BOX)
   // ==========================================
   return (
-    <div style={{ backgroundColor: '#020617', minHeight: '100vh', color: '#f8fafc', paddingBottom: '60px', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
+    <div style={{ backgroundColor: '#020617', minHeight: '100vh', color: '#f8fafc', paddingBottom: '60px' }}>
 
       {/* HEADER FLOATING (Melayang saat di-scroll) */}
       <div style={{ 
