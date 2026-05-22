@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import siteConfig from '@/config';
 
-
 export const dynamic = 'force-dynamic';
 
 export default async function FakeVideoPage({ params }) {
@@ -35,9 +34,6 @@ export default async function FakeVideoPage({ params }) {
   let randomVideos = [...randManual.rows, ...randTxt.rows];
   randomVideos = randomVideos.sort(() => 0.5 - Math.random()).slice(0, 20);
 
-  ==========================================
-  // TAMBAHAN BARU: AMBIL DATA SETTING IKLAN
-  // ==========================================
   let siteSettings = {};
   try {
     const resSettings = await turso.execute("SELECT * FROM site_settings WHERE id = 1");
