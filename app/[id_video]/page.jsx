@@ -118,17 +118,18 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* AREA ADS DESKTOP & MOBILE (Nempel pas di atas Player) */}
+       {/* AREA ADS DESKTOP & MOBILE (Nempel parah tanpa jarak) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ display: 'table', margin: '0 auto 5px auto', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', margin: '0', padding: '0', overflow: 'hidden' }}>
             {siteSettings.ads_desktop && (
-              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+              <div className="hidden-xs" style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
             {siteSettings.ads_mobile && (
-              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+              <div className="visible-xs-block" style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
             )}
           </div>
         )}
+
 
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess}>
