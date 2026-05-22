@@ -30,7 +30,7 @@ export default function Header() {
         {/* Bagian Kiri (Logo) & Tombol HP */}
         <div className="navbar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Link href="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', color: '#1e293b', fontWeight: '800', fontSize: '24px', letterSpacing: '-0.5px', height: 'auto', padding: '15px' }}>
-            <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '32px' }}>play_circle</span>
+            <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '32px' }}>video_library</span>
             {siteConfig.sitename}
           </Link>
           
