@@ -1,13 +1,15 @@
 import { turso } from '@/lib/turso';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import siteConfig from '@/config';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export default async function RealVideoPage({ params }) {
-  const { tube_param } = await params;
-  const id_video = (tube_param || '').replace('tube_', '');
+  const resolvedParams = await params;
+  const tube_param = resolvedParams.tube_param || Object.values(resolvedParams)[0] || '';
+  const id_video = tube_param.replace('tube_', '');
 
   const cookieStore = await cookies();
   const accessTicket = cookieStore.get(`access_${id_video}`);
@@ -18,26 +20,41 @@ export default async function RealVideoPage({ params }) {
 
   let videoData = null;
   let sourceTable = '';
+  let debugLog = "";
 
   try {
     const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
-    if (resManual && resManual.rows && resManual.rows.length > 0) {
+    if (resManual && resManual.rows.length > 0) {
       videoData = resManual.rows[0];
       sourceTable = 'video_manual';
     }
-  } catch (e) {}
+  } catch (e) { debugLog += ` [Manual Error: ${e.message}]`; }
 
   if (!videoData) {
     try {
       const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
-      if (resTxt && resTxt.rows && resTxt.rows.length > 0) {
+      if (resTxt && resTxt.rows.length > 0) {
         videoData = resTxt.rows[0];
         sourceTable = 'video_txt';
       }
-    } catch (e) {}
+    } catch (e) { debugLog += ` [TXT Error: ${e.message}]`; }
   }
 
-  if (!videoData) notFound();
+  // ========================================================
+  // X-RAY DEBUGGER (REAL PAGE)
+  // ========================================================
+  if (!videoData) {
+    return (
+      <div style={{ backgroundColor: '#020617', minHeight: '100vh', padding: '40px', color: '#f8fafc' }}>
+        <h2 style={{ color: '#ef4444', borderBottom: '2px solid #334155', paddingBottom: '10px' }}>⚠️ SISTEM X-RAY: VIDEO ASLI TIDAK DITEMUKAN</h2>
+        <div style={{ fontSize: '16px', lineHeight: '1.8' }}>
+          <p><strong>1. ID Target:</strong> <code>{id_video || 'KOSONG'}</code></p>
+          <p><strong>2. Respon Turso:</strong> <code>{debugLog || 'Tidak ada error sistem. ID tersebut murni tidak ditemukan di tabel manapun.'}</code></p>
+          <Link href="/" style={{ display: 'inline-block', marginTop: '20px', padding: '10px 25px', background: '#3b82f6', color: '#fff', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold' }}>Kembali ke Beranda</Link>
+        </div>
+      </div>
+    );
+  }
 
   try {
     await turso.execute({ sql: `UPDATE ${sourceTable} SET hitcount = hitcount + 1 WHERE id_video = ?`, args: [id_video] });
