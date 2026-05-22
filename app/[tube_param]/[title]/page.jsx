@@ -1,14 +1,13 @@
 import { turso } from '@/lib/turso';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import siteConfig from '@/config';
-import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export default async function RealVideoPage({ params }) {
-  const resolvedParams = await params;
-  const tube_param = resolvedParams.tube_param || '';
+  // LOGIKA ASLI LO
+  const { tube_param, title } = await params;
   const id_video = tube_param.replace('tube_', '');
 
   const cookieStore = await cookies();
@@ -21,45 +20,28 @@ export default async function RealVideoPage({ params }) {
   let videoData = null;
   let sourceTable = '';
 
-  try {
-    const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
-    if (resManual && resManual.rows.length > 0) {
-      videoData = resManual.rows[0];
-      sourceTable = 'video_manual';
+  const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
+  if (resManual.rows.length > 0) {
+    videoData = resManual.rows[0];
+    sourceTable = 'video_manual';
+  } else {
+    const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
+    if (resTxt.rows.length > 0) {
+      videoData = resTxt.rows[0];
+      sourceTable = 'video_txt';
     }
-  } catch (e) {}
-
-  if (!videoData) {
-    try {
-      const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
-      if (resTxt && resTxt.rows.length > 0) {
-        videoData = resTxt.rows[0];
-        sourceTable = 'video_txt';
-      }
-    } catch (e) {}
   }
 
-  if (!videoData) {
-    return (
-      <div style={{ backgroundColor: '#020617', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <span className="material-icons notranslate" translate="no" style={{ fontSize: '80px', color: '#ef4444', marginBottom: '15px' }}>error_outline</span>
-        <h2 style={{ fontWeight: '800', color: '#f8fafc', margin: 0 }}>Video Tidak Ditemukan</h2>
-        <p style={{ color: '#64748b', marginTop: '10px' }}>Data video ini tidak ada di database.</p>
-        <Link href="/" style={{ marginTop: '20px', padding: '10px 25px', background: '#3b82f6', color: '#fff', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold' }}>Kembali</Link>
-      </div>
-    );
-  }
+  if (!videoData) notFound();
 
-  try {
-    await turso.execute({ sql: `UPDATE ${sourceTable} SET hitcount = hitcount + 1 WHERE id_video = ?`, args: [id_video] });
-  } catch (e) {}
+  await turso.execute({ sql: `UPDATE ${sourceTable} SET hitcount = hitcount + 1 WHERE id_video = ?`, args: [id_video] });
   
-  const finalEmbedUrl = videoData.embed_url || videoData.embed_code || '';
-  const safeTitle = videoData.title ? String(videoData.title) : 'Video Tanpa Judul';
+  const finalEmbedUrl = videoData.embed_url || videoData.embed_code;
 
   return (
     <div style={{ backgroundColor: '#020617', minHeight: '100vh', color: '#f8fafc', paddingBottom: '60px' }}>
       
+      {/* CUSTOM HEADER REAL PAGE (DARK MODE) */}
       <div style={{ background: '#0f172a', borderBottom: '1px solid #1e293b', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', maxWidth: '900px', width: '100%' }}>
           <img src="/logo.png" alt="Logo" style={{ height: '30px', marginRight: '10px' }} onError={(e) => e.target.style.display='none'} />
@@ -69,6 +51,7 @@ export default async function RealVideoPage({ params }) {
 
       <div className="container" style={{ maxWidth: '900px' }}>
         
+        {/* PLAYER ASLI */}
         <div style={{ background: '#000', borderRadius: '4px', overflow: 'hidden', border: '1px solid #334155', boxShadow: '0 10px 40px rgba(0,0,0,0.8)', marginBottom: '20px' }}>
           <div className="embed-responsive embed-responsive-16by9">
             <iframe 
@@ -81,10 +64,11 @@ export default async function RealVideoPage({ params }) {
         </div>
 
         <h3 style={{ fontWeight: '700', marginTop: 0, marginBottom: '25px', fontSize: '22px', lineHeight: '1.4', borderBottom: '1px solid #1e293b', paddingBottom: '15px' }}>
-          {safeTitle}
+          {videoData.title}
         </h3>
 
         <div className="row">
+          {/* KOLOM KIRI: TOMBOL OFFER/DOWNLOAD */}
           <div className="col-md-7" style={{ marginBottom: '20px' }}>
             <div style={{ background: '#0f172a', padding: '20px', borderRadius: '4px', border: '1px solid #1e293b' }}>
               <h4 style={{ margin: '0 0 15px 0', fontSize: '16px', display: 'flex', alignItems: 'center', color: '#e2e8f0', fontWeight: '700' }}>
@@ -109,6 +93,7 @@ export default async function RealVideoPage({ params }) {
             </div>
           </div>
 
+          {/* KOLOM KANAN: ARTIKEL PANCINGAN VPN */}
           <div className="col-md-5">
             <div style={{ background: '#1e1414', padding: '20px', borderRadius: '4px', border: '1px solid #451a1a' }}>
               <h5 style={{ margin: '0 0 10px 0', color: '#fca5a5', fontWeight: '800', display: 'flex', alignItems: 'center', fontSize: '15px' }}>
@@ -128,6 +113,7 @@ export default async function RealVideoPage({ params }) {
             </div>
           </div>
         </div>
+
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
