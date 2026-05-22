@@ -79,11 +79,18 @@ export default async function FakeVideoPage({ params }) {
           </h1>
         </div>
 
-        {/* 2. AREA IKLAN HEADER (Dinamis dari Database) */}
-        {siteSettings?.ads_head && (
-          <div style={{ marginBottom: '25px', textAlign: 'center', width: '100%', overflow: 'hidden' }} 
-               dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+       {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
+        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto 15px auto', width: '100%', overflow: 'hidden' }}>
+            {siteSettings.ads_desktop && (
+              <div className="hidden-xs" style={{ display: 'flex', justifyContent: 'center', width: '100%' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+            )}
+            {siteSettings.ads_mobile && (
+              <div className="visible-xs-block" style={{ display: 'flex', justifyContent: 'center', width: '100%' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+            )}
+          </div>
         )}
+
 
         {/* 3. JUDUL & HITCOUNT */}
         <h3 style={{ 
