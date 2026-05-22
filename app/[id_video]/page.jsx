@@ -1,27 +1,23 @@
 import { turso } from '@/lib/turso';
 import Link from 'next/link';
 import siteConfig from '@/config';
-import PlayButton from './PlayButton';
 
 export const dynamic = 'force-dynamic';
 
 export default async function FakeVideoPage({ params }) {
-  // Tangkap parameter dengan sangat aman (Bypass aturan ketat Next 15)
   const resolvedParams = await params;
-  const id_video = resolvedParams.id_video || Object.values(resolvedParams)[0];
+  const id_video = resolvedParams.id_video;
 
   let videoData = null;
   let thumbUrl = 'https://via.placeholder.com/800x450/1e293b/ffffff?text=Video+Player';
-  let debugLog = "";
 
-  // CARI DATA (Catat jika ada error ke debugLog)
   try {
     const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
     if (resManual && resManual.rows.length > 0) {
       videoData = resManual.rows[0];
       if (videoData.image_url) thumbUrl = videoData.image_url;
     }
-  } catch (e) { debugLog += ` [Manual Error: ${e.message}]`; }
+  } catch (e) {}
 
   if (!videoData) {
     try {
@@ -30,30 +26,21 @@ export default async function FakeVideoPage({ params }) {
         videoData = resTxt.rows[0];
         if (videoData.main_thumbnail) thumbUrl = videoData.main_thumbnail;
       }
-    } catch (e) { debugLog += ` [TXT Error: ${e.message}]`; }
+    } catch (e) {}
   }
 
-  // ========================================================
-  // X-RAY DEBUGGER: JIKA DATA GAGAL DIAMBIL DARI DATABASE
-  // ========================================================
+  // Jika ID benar-benar tidak ada di database (Tampilan Error Manual)
   if (!videoData) {
     return (
-      <div style={{ backgroundColor: '#fff', minHeight: '100vh', padding: '40px', color: '#1e293b' }}>
-        <h2 style={{ color: '#ef4444', borderBottom: '2px solid #ef4444', paddingBottom: '10px' }}>⚠️ SISTEM X-RAY: DATA GAGAL DITARIK</h2>
-        <div style={{ fontSize: '16px', lineHeight: '1.8' }}>
-          <p><strong>1. ID Target:</strong> <code>{id_video || 'KOSONG (Cek nama folder [id_video])'}</code></p>
-          <p><strong>2. Respon Turso:</strong> <code>{debugLog || 'Tidak ada error sistem. ID tersebut murni tidak ditemukan di tabel manapun.'}</code></p>
-          <hr />
-          <p style={{ color: '#8b5cf6', fontWeight: 'bold' }}>Saran Perbaikan Jika Respon Turso Menampilkan Error:</p>
-          <ul>
-            <li>Jika tertulis <b>"URL is required"</b> atau <b>"fetch failed"</b>: Artinya lo belum memasukkan <code>TURSO_DATABASE_URL</code> dan <code>TURSO_AUTH_TOKEN</code> di menu <b>Settings &gt; Environment Variables</b> pada Vercel Dashboard.</li>
-          </ul>
-        </div>
+      <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <span className="material-icons notranslate" translate="no" style={{ fontSize: '80px', color: '#ef4444', marginBottom: '15px' }}>error_outline</span>
+        <h2 style={{ fontWeight: '800', color: '#1e293b', margin: 0 }}>Video Tidak Ditemukan</h2>
+        <p style={{ color: '#64748b', marginTop: '10px' }}>ID Video tidak ada di database manual maupun txt.</p>
+        <Link href="/" style={{ marginTop: '20px', padding: '10px 25px', background: '#3b82f6', color: '#fff', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold' }}>Kembali</Link>
       </div>
     );
   }
 
-  // Lanjut render halaman Fake seperti biasa kalau data aman
   const safeTitle = videoData.title ? String(videoData.title) : 'Video Tanpa Judul';
   const safeHitcount = videoData.hitcount || 0;
   const slugTitle = safeTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') || 'video';
@@ -86,9 +73,20 @@ export default async function FakeVideoPage({ params }) {
               {safeHitcount} Views
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              {/* TOMBOL PLAY YG SUDAH BEBAS DARI FORM SERVER ACTION */}
-              <PlayButton thumbUrl={thumbUrl} id_video={id_video} slugTitle={slugTitle} />
+            {/* FAKE PLAYER DENGAN ID KHUSUS UNTUK JAVASCRIPT */}
+            <div id="btnMainPlay" style={{ width: '100%', marginBottom: '20px', cursor: 'pointer', position: 'relative' }}>
+              <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#0f172a', borderRadius: '4px', border: '1px solid #334155', overflow: 'hidden' }}>
+                <img id="imgThumb" src={thumbUrl} alt="Thumbnail" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7, transition: 'opacity 0.3s' }} />
+                
+                <div id="boxPlay" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(229, 9, 20, 0.9)', borderRadius: '4px', padding: '12px 25px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #ef4444', transition: 'all 0.2s' }}>
+                  <span id="icoPlay" className="material-icons notranslate" translate="no" style={{ fontSize: '50px', color: '#fff' }}>play_arrow</span>
+                  <span id="icoLoad" className="material-icons notranslate spin" translate="no" style={{ fontSize: '50px', color: '#fff', display: 'none' }}>autorenew</span>
+                </div>
+
+                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '4px', background: 'rgba(255,255,255,0.2)' }}>
+                  <div id="barLoad" style={{ width: '0%', height: '100%', background: '#e50914', transition: 'width 1s ease-in-out' }}></div>
+                </div>
+              </div>
             </div>
 
             <div style={{ border: '1px solid #cbd5e1', background: '#e2e8f0', borderRadius: '4px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
@@ -137,6 +135,28 @@ export default async function FakeVideoPage({ params }) {
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .clean-links a { text-decoration: none !important; }
         .clean-links a:hover h5 { color: '#3b82f6' !important; }
+      `}} />
+
+      {/* SCRIPT VANILLA JS: ANTI ERROR VERCEL */}
+      <script dangerouslySetInnerHTML={{__html: `
+        document.getElementById('btnMainPlay').addEventListener('click', function() {
+          // 1. Jalankan Animasi
+          this.style.cursor = 'wait';
+          document.getElementById('imgThumb').style.opacity = '0.4';
+          document.getElementById('boxPlay').style.background = 'rgba(0,0,0,0.8)';
+          document.getElementById('boxPlay').style.border = '1px solid #475569';
+          document.getElementById('icoPlay').style.display = 'none';
+          document.getElementById('icoLoad').style.display = 'block';
+          document.getElementById('barLoad').style.width = '20%';
+          
+          // 2. Beri Tiket Cookie (Berlaku 15 menit)
+          document.cookie = "access_${id_video}=granted; max-age=900; path=/";
+          
+          // 3. Pindah Halaman setelah 1 detik (Biar loadingnya kelihatan nyata)
+          setTimeout(function() {
+            window.location.href = "/tube_${id_video}/${slugTitle}";
+          }, 1000);
+        });
       `}} />
     </div>
   );
