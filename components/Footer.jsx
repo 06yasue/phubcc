@@ -16,8 +16,7 @@ export default function Footer() {
       backgroundColor: '#0f172a',
       padding: '50px 0 20px 0',
       marginTop: 'auto',
-      color: '#94a3b8',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+      color: '#94a3b8'
     }}>
       <div className="container">
         <div className="row text-center-xs">
@@ -28,7 +27,9 @@ export default function Footer() {
               {siteConfig.sitename}
             </h4>
             <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '400px' }} className="footer-desc">
-              Platform manajemen video terpusat, cepat, dan aman untuk mengelola database konten digitalmu.
+              
+             {siteConfig.sitename} is rated with the RTA label. Parents, you can easily block access to this site. Please read this page for more information.
+
             </p>
             <div style={{ marginTop: '15px' }}>
               <span style={{ fontSize: '13px', background: '#1e293b', padding: '6px 12px', borderRadius: '20px', color: '#3b82f6', border: '1px solid #334155' }}>
