@@ -46,7 +46,31 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* Jangan masukin tag <head> manual di sini biar gak bentrok sama metadata! */}
+       <head>
+       {/* ========================================== */}
+        {/* PENGATURAN GOOGLE FONTS: Noto Sans JP       */}
+        {/* ========================================== */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" />
+        
+        {/* Memanggil Bootstrap 3 dan Google Icons via CDN */}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+        {/* Script jQuery & Bootstrap untuk dukung fungsionalitas klasik (jika ada) */}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        {/* Timpa font bawaan Bootstrap dengan Noto Sans JP */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body {
+              font-family: 'Noto Sans JP', sans-serif !important;
+            }
+          `
+        }} />
+       </head>
       <body>
         <div style={{ minHeight: '80vh' }}>
           {children}
