@@ -24,7 +24,7 @@ export default function Footer() {
           
           <div className="col-sm-6" style={{ marginBottom: '30px' }}>
             <h4 style={{ fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', marginBottom: '15px' }} className="footer-brand">
-              <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '28px' }}>play_circle</span>
+              <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '28px' }}>video_library</span>
               {siteConfig.sitename}
             </h4>
             <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '400px' }} className="footer-desc">
