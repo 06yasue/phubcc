@@ -152,7 +152,7 @@ export default async function FakeVideoPage({ params }) {
         {/* 6. VIDEO POPULER (Grid Rapi + Efek Hover SVG) */}
         <h4 style={{ fontWeight: '800', color: '#1e293b', marginBottom: '25px', display: 'flex', alignItems: 'center' }}>
           <span className="material-icons notranslate" translate="no" style={{ color: '#f59e0b', marginRight: '8px', fontSize: '26px' }}>video_library</span>
-          Video Populer
+          Other Pron {siteConfig.sitename} Sex Videos
         </h4>
         
         <div className="row">
