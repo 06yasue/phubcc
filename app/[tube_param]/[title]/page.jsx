@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function RealVideoPage({ params }) {
   const resolvedParams = await params;
-  const tube_param = resolvedParams.tube_param || Object.values(resolvedParams)[0] || '';
+  const tube_param = resolvedParams.tube_param || '';
   const id_video = tube_param.replace('tube_', '');
 
   const cookieStore = await cookies();
@@ -20,7 +20,6 @@ export default async function RealVideoPage({ params }) {
 
   let videoData = null;
   let sourceTable = '';
-  let debugLog = "";
 
   try {
     const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
@@ -28,7 +27,7 @@ export default async function RealVideoPage({ params }) {
       videoData = resManual.rows[0];
       sourceTable = 'video_manual';
     }
-  } catch (e) { debugLog += ` [Manual Error: ${e.message}]`; }
+  } catch (e) {}
 
   if (!videoData) {
     try {
@@ -37,21 +36,16 @@ export default async function RealVideoPage({ params }) {
         videoData = resTxt.rows[0];
         sourceTable = 'video_txt';
       }
-    } catch (e) { debugLog += ` [TXT Error: ${e.message}]`; }
+    } catch (e) {}
   }
 
-  // ========================================================
-  // X-RAY DEBUGGER (REAL PAGE)
-  // ========================================================
   if (!videoData) {
     return (
-      <div style={{ backgroundColor: '#020617', minHeight: '100vh', padding: '40px', color: '#f8fafc' }}>
-        <h2 style={{ color: '#ef4444', borderBottom: '2px solid #334155', paddingBottom: '10px' }}>⚠️ SISTEM X-RAY: VIDEO ASLI TIDAK DITEMUKAN</h2>
-        <div style={{ fontSize: '16px', lineHeight: '1.8' }}>
-          <p><strong>1. ID Target:</strong> <code>{id_video || 'KOSONG'}</code></p>
-          <p><strong>2. Respon Turso:</strong> <code>{debugLog || 'Tidak ada error sistem. ID tersebut murni tidak ditemukan di tabel manapun.'}</code></p>
-          <Link href="/" style={{ display: 'inline-block', marginTop: '20px', padding: '10px 25px', background: '#3b82f6', color: '#fff', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold' }}>Kembali ke Beranda</Link>
-        </div>
+      <div style={{ backgroundColor: '#020617', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <span className="material-icons notranslate" translate="no" style={{ fontSize: '80px', color: '#ef4444', marginBottom: '15px' }}>error_outline</span>
+        <h2 style={{ fontWeight: '800', color: '#f8fafc', margin: 0 }}>Video Tidak Ditemukan</h2>
+        <p style={{ color: '#64748b', marginTop: '10px' }}>Data video ini tidak ada di database.</p>
+        <Link href="/" style={{ marginTop: '20px', padding: '10px 25px', background: '#3b82f6', color: '#fff', borderRadius: '4px', textDecoration: 'none', fontWeight: 'bold' }}>Kembali</Link>
       </div>
     );
   }
