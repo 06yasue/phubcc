@@ -2,6 +2,8 @@ import { turso } from '@/lib/turso';
 import { notFound, redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import siteConfig from '@/config';
+
 
 export const dynamic = 'force-dynamic';
 
