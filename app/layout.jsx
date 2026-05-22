@@ -15,14 +15,16 @@ export default function RootLayout({ children }) {
           rel="stylesheet" 
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
         />
+        {/* Load Google Material Icons di sini biar aktif se-website! */}
+        <link 
+          href="https://fonts.googleapis.com/icon?family=Material+Icons" 
+          rel="stylesheet" 
+        />
       </head>
       <body>
-        {/* Konten dari tiap halaman (page.jsx) akan dirender di dalam div ini */}
         <div style={{ minHeight: '80vh' }}>
           {children}
         </div>
-        
-        {/* Footer akan otomatis selalu muncul di bagian bawah setiap halaman */}
         <Footer />
       </body>
     </html>
