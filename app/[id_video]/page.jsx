@@ -35,6 +35,17 @@ export default async function FakeVideoPage({ params }) {
   let randomVideos = [...randManual.rows, ...randTxt.rows];
   randomVideos = randomVideos.sort(() => 0.5 - Math.random()).slice(0, 20);
 
+  ==========================================
+  // TAMBAHAN BARU: AMBIL DATA SETTING IKLAN
+  // ==========================================
+  let siteSettings = {};
+  try {
+    const resSettings = await turso.execute("SELECT * FROM site_settings WHERE id = 1");
+    if (resSettings.rows.length > 0) {
+      siteSettings = resSettings.rows[0];
+    }
+  } catch (e) {}
+
   // 3. SERVER ACTION: FUNGSI TOMBOL PLAY
   async function grantAccess() {
     'use server';
@@ -48,13 +59,12 @@ export default async function FakeVideoPage({ params }) {
     redirect(`/tube_${id_video}/${slugTitle}`);
   }
 
-  return (
+    return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
       <div className="container" style={{ maxWidth: '900px' }}>
         
         {/* 1. AREA HEADER (Logo & Site Name 3D Centered) */}
         <div style={{ textAlign: 'center', marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* TANPA fungsi onError biar Vercel gak error */}
           <img 
             src="/logo.png" 
             alt="Logo" 
@@ -73,12 +83,13 @@ export default async function FakeVideoPage({ params }) {
           </h1>
         </div>
 
-        {/* 2. AREA IKLAN HEADER */}
-        <div style={{ marginBottom: '25px', border: '1px dashed #94a3b8', background: '#ffffff', borderRadius: '8px', textAlign: 'center', padding: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-          <p style={{ color: '#64748b', fontSize: '13px', fontWeight: 'bold', margin: 0 }}>Area Slot Iklan (Header)</p>
-        </div>
+        {/* 2. AREA IKLAN HEADER (Dinamis dari Database) */}
+        {siteSettings?.ads_head && (
+          <div style={{ marginBottom: '25px', textAlign: 'center', width: '100%', overflow: 'hidden' }} 
+               dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+        )}
 
-        {/* 3. JUDUL & HITCOUNT (Potong otomatis kalau kepanjangan) */}
+        {/* 3. JUDUL & HITCOUNT */}
         <h3 style={{ 
           fontWeight: '800', 
           color: '#0f172a', 
@@ -91,7 +102,7 @@ export default async function FakeVideoPage({ params }) {
           {videoData.title}
         </h3>
       
-          <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
           {/* Ikon & Jumlah Views */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#3b82f6' }} viewBox="0 0 24 24">
@@ -100,7 +111,7 @@ export default async function FakeVideoPage({ params }) {
             <span style={{ fontWeight: '600' }}>{videoData.hitcount} Views</span>
           </div>
 
-          {/* Ikon & Tanggal Dibuat (Tambahan Baru) */}
+          {/* Ikon & Tanggal Dibuat */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#64748b' }} viewBox="0 0 24 24">
               <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
@@ -111,22 +122,31 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* 4. FAKE VIDEO PLAYER (Efek Loading pas diklik) */}
+        {/* AREA ADS DESKTOP & MOBILE (Dinamis, diletakkan tepat di atas Player) */}
+        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
+          <div style={{ textAlign: 'center', marginBottom: '20px', width: '100%', overflow: 'hidden' }}>
+            {siteSettings.ads_desktop && (
+              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+            )}
+            {siteSettings.ads_mobile && (
+              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+            )}
+          </div>
+        )}
+
+        {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess}>
           <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none' }}>
             <div id="player-container" style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', border: '1px solid #334155', transition: 'all 0.3s' }}>
               <img id="player-thumb" src={thumbUrl} alt="Thumbnail" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85, transition: 'opacity 0.3s' }} />
               
-              {/* Box Play & Loading Spinner */}
               <div id="player-play-box" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(229, 9, 20, 0.95)', borderRadius: '12px', padding: '15px 30px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(229, 9, 20, 0.5)', transition: 'all 0.3s' }}>
                 <svg id="icon-play" viewBox="0 0 24 24" style={{ width: '50px', height: '50px', fill: '#fff' }}>
                   <path d="M8 5v14l11-7z"/>
                 </svg>
-                {/* Spinner (Sembunyi by default) */}
                 <span id="icon-loading" className="material-icons notranslate spin" translate="no" style={{ fontSize: '50px', color: '#fff', display: 'none' }}>autorenew</span>
               </div>
               
-              {/* Progress Bar Jalan */}
               <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '5px', background: 'rgba(255,255,255,0.2)' }}>
                 <div id="player-progress" style={{ width: '0%', height: '100%', background: '#e50914', transition: 'width 2s ease-in-out' }}></div>
               </div>
@@ -134,13 +154,11 @@ export default async function FakeVideoPage({ params }) {
           </button>
         </form>
 
-        {/* 5. SLOT NATIVE BANNER ADS (Fleksibel & Support Semua Ukuran) */}
-        <div style={{ marginTop: '20px', width: '100%', minHeight: '120px', background: '#ffffff', borderRadius: '8px', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '15px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#94a3b8' }}>
-            <span className="material-icons notranslate" translate="no" style={{ fontSize: '28px', marginBottom: '8px', color: '#cbd5e1' }}>campaign</span>
-            <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Area Slot Native Banner (Support Auto-Size)</span>
-          </div>
-        </div>
+        {/* 5. SLOT NATIVE BANNER ADS (Dinamis dari Database) */}
+        {siteSettings?.ads_native && (
+          <div style={{ marginTop: '20px', width: '100%', textAlign: 'center', overflow: 'hidden', display: 'flex', justifyContent: 'center' }} 
+               dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
+        )}
 
         {/* GARIS PEMISAH ELEGAN */}
         <div style={{ display: 'flex', alignItems: 'center', margin: '40px 0' }}>
@@ -149,7 +167,7 @@ export default async function FakeVideoPage({ params }) {
           <div style={{ flex: 1, height: '2px', background: 'linear-gradient(270deg, transparent, #cbd5e1)' }}></div>
         </div>
 
-        {/* 6. VIDEO POPULER (Grid Rapi + Efek Hover SVG) */}
+        {/* 6. VIDEO POPULER */}
         <h4 style={{ fontWeight: '800', color: '#1e293b', marginBottom: '25px', display: 'flex', alignItems: 'center' }}>
           <span className="material-icons notranslate" translate="no" style={{ color: '#f59e0b', marginRight: '8px', fontSize: '26px' }}>video_library</span>
           Other Pron {siteConfig.sitename} Sex Videos
@@ -160,14 +178,12 @@ export default async function FakeVideoPage({ params }) {
             <div key={idx} className="col-xs-6 col-md-3" style={{ marginBottom: '25px' }}>
               <Link href={`/${vid.id_video}`} style={{ textDecoration: 'none', display: 'block' }} className="pop-card">
                 <div style={{ position: 'relative', paddingTop: '56.25%', backgroundColor: '#1e293b', borderRadius: '8px', overflow: 'hidden', border: '1px solid #cbd5e1', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-                  {/* Gambar Thumbnail */}
                   {vid.thumb ? (
                     <img className="pop-img" src={vid.thumb} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
                   ) : (
                     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>No Image</div>
                   )}
                   
-                  {/* SVG Hover Play Icon (Muncul pas di-hover) */}
                   <div className="pop-play" style={{ position: 'absolute', top: '50%', left: '50%', background: 'rgba(229, 9, 20, 0.9)', padding: '12px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 15px rgba(229, 9, 20, 0.4)' }}>
                     <svg viewBox="0 0 24 24" style={{ width: '24px', height: '24px', fill: '#fff', marginLeft: '3px' }}>
                       <path d="M8 5v14l11-7z"/>
@@ -175,7 +191,6 @@ export default async function FakeVideoPage({ params }) {
                   </div>
                 </div>
                 
-                {/* Teks Populer */}
                 <h5 style={{ fontSize: '13px', fontWeight: '700', color: '#334155', marginTop: '10px', marginBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={vid.title}>
                   {vid.title || 'Video Tanpa Judul'}
                 </h5>
@@ -184,11 +199,16 @@ export default async function FakeVideoPage({ params }) {
           ))}
         </div>
 
+        {/* 7. AREA ADS FOOTER (Dinamis dari Database, paling bawah) */}
+        {siteSettings?.ads_footer && (
+          <div style={{ marginTop: '20px', width: '100%', textAlign: 'center', overflow: 'hidden' }} 
+               dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
+        )}
+
       </div>
 
-      {/* SCRIPT & STYLE MURNI (Aman dari Vercel 500) */}
+      {/* SCRIPT & STYLE */}
       <script dangerouslySetInnerHTML={{__html: `
-        // Efek loading saat video utama di klik
         document.getElementById('main-video-form').addEventListener('submit', function() {
           document.getElementById('main-video-btn').style.cursor = 'wait';
           document.getElementById('player-thumb').style.opacity = '0.4';
@@ -204,11 +224,9 @@ export default async function FakeVideoPage({ params }) {
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         
-        /* Efek Hover Keren untuk Video Populer */
         .pop-card .pop-play { opacity: 0; transform: translate(-50%, -50%) scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .pop-card .pop-img { transition: transform 0.4s ease; }
         
-        /* Pas disorot mouse / jari */
         .pop-card:hover .pop-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .pop-card:hover .pop-img { transform: scale(1.08); opacity: 0.8; }
         .pop-card:hover h5 { color: '#3b82f6' !important; }
