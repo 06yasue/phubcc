@@ -42,84 +42,437 @@ export default async function FakeVideoPage({ params }) {
   }
 
   // 4. TAMPILAN UI (DIRAPIHKAN TANPA MERUBAH FUNGSI)
-  return (
-    <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', paddingBottom: '50px' }}>
-      
-      {/* HEADER SIMPEL */}
-      <div style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '15px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', maxWidth: '1000px', width: '100%' }}>
-          <img src="/logo.png" alt="Logo" style={{ height: '30px', marginRight: '10px' }} onError={(e) => e.target.style.display='none'} />
-          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#0f172a' }}>Platform Video</h1>
+
+return (
+  <div
+    className="container"
+    style={{
+      marginTop: '20px',
+      marginBottom: '60px',
+      maxWidth: '1100px',
+    }}
+  >
+    {/* STYLE */}
+    <style>{`
+      .video-page {
+        font-family: Arial, sans-serif;
+      }
+
+      .video-card-hover {
+        transition: all .25s ease;
+      }
+
+      .video-card-hover:hover {
+        transform: translateY(-4px);
+      }
+
+      .main-video-box {
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        background: #000;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      }
+
+      .play-button-big {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        background: rgba(255,0,0,.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .25s ease;
+        box-shadow: 0 0 25px rgba(255,0,0,.45);
+      }
+
+      .main-video-box:hover .play-button-big {
+        transform: translate(-50%, -50%) scale(1.08);
+        background: #ff0000;
+      }
+
+      .video-info-box {
+        background: #fff;
+        border-radius: 16px;
+        padding: 18px;
+        margin-top: 18px;
+        box-shadow: 0 5px 25px rgba(0,0,0,.05);
+      }
+
+      .video-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #111827;
+        line-height: 1.4;
+        margin: 0 0 12px;
+      }
+
+      .video-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: #64748b;
+        font-size: 14px;
+      }
+
+      .ads-box {
+        margin-top: 30px;
+        margin-bottom: 35px;
+        border-radius: 16px;
+        padding: 30px 20px;
+        text-align: center;
+        background: linear-gradient(to right, #f8fafc, #eef2ff);
+        border: 2px dashed #cbd5e1;
+      }
+
+      .popular-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 22px;
+        font-size: 24px;
+        font-weight: 800;
+        color: #111827;
+      }
+
+      .video-grid-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 5px 18px rgba(0,0,0,.06);
+        transition: .25s ease;
+        height: 100%;
+      }
+
+      .video-grid-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      }
+
+      .video-thumb {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        background: #111827;
+        overflow: hidden;
+      }
+
+      .video-thumb img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .play-small {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(0,0,0,.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .video-card-body {
+        padding: 12px;
+      }
+
+      .video-card-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1e293b;
+        line-height: 1.5;
+        height: 42px;
+        overflow: hidden;
+      }
+
+      .watch-button {
+        margin-top: 12px;
+        width: 100%;
+        border: none;
+        background: linear-gradient(to right, #ef4444, #dc2626);
+        color: #fff;
+        font-weight: 700;
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: .25s ease;
+      }
+
+      .watch-button:hover {
+        opacity: .92;
+      }
+
+      @media (max-width: 768px) {
+        .video-title {
+          font-size: 22px;
+        }
+
+        .play-button-big {
+          width: 75px;
+          height: 75px;
+        }
+
+        .play-button-big .material-icons {
+          font-size: 50px !important;
+        }
+
+        .popular-title {
+          font-size: 20px;
+        }
+
+        .video-card-title {
+          font-size: 13px;
+        }
+      }
+    `}</style>
+
+    <div className="video-page">
+
+      {/* TITLE */}
+      <div className="video-info-box">
+        <h1 className="video-title">
+          {videoData.title}
+        </h1>
+
+        <div className="video-meta">
+          <span
+            className="material-icons notranslate"
+            translate="no"
+            style={{ fontSize: '18px', color: '#3b82f6' }}
+          >
+            visibility
+          </span>
+
+          <span>
+            {videoData.hitcount} Views
+          </span>
+
+          <span>•</span>
+
+          <span style={{ color: '#10b981', fontWeight: '700' }}>
+            HD Quality
+          </span>
         </div>
       </div>
 
-      <div className="container" style={{ marginTop: '25px', maxWidth: '1000px' }}>
-        <div className="row">
-          
-          <div className="col-md-8">
-            <h2 style={{ fontWeight: '800', color: '#1e293b', marginTop: 0, marginBottom: '10px', fontSize: '22px', lineHeight: '1.4' }}>{videoData.title}</h2>
-            <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
-              <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '5px', color: '#3b82f6' }}>visibility</span>
-              <span style={{ fontWeight: '600' }}>{videoData.hitcount} Views</span>
-            </div>
+      {/* VIDEO PLAYER */}
+      <form action={grantAccess} style={{ marginTop: '20px' }}>
+        <button
+          type="submit"
+          style={{
+            width: '100%',
+            border: 'none',
+            padding: 0,
+            background: 'transparent',
+            cursor: 'pointer',
+          }}
+        >
+          <div className="main-video-box">
 
-            {/* FAKE VIDEO PLAYER (Struktur Asli Lo) */}
-            <form action={grantAccess} style={{ marginBottom: '20px' }}>
-              <button type="submit" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer' }}>
-                {/* Border Kaku (4px) */}
-                <div style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#000', borderRadius: '4px', overflow: 'hidden', border: '1px solid #334155' }}>
-                  <img src={thumbUrl} alt="Thumbnail" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
-                  
-                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(229, 9, 20, 0.9)', borderRadius: '4px', padding: '10px 25px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span className="material-icons notranslate" translate="no" style={{ fontSize: '50px', color: '#fff' }}>play_arrow</span>
-                  </div>
-                  
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '5px', background: 'rgba(255,255,255,0.3)' }}>
-                    <div style={{ width: '0%', height: '100%', background: '#e50914' }}></div>
-                  </div>
-                </div>
-              </button>
-            </form>
+            <div
+              style={{
+                width: '100%',
+                paddingTop: '56.25%',
+                position: 'relative',
+              }}
+            >
+              <img
+                src={thumbUrl}
+                alt="Thumbnail"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: '.88',
+                }}
+              />
 
-            {/* SLOT IKLAN */}
-            <div style={{ border: '1px dashed #cbd5e1', background: '#f1f5f9', borderRadius: '4px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: '30px' }}>
-              <div className="hidden-xs" style={{ width: '100%', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', fontSize: '14px', fontWeight: 'bold' }}>
-                Slot Ads Desktop
+              {/* OVERLAY */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15))',
+                }}
+              />
+
+              {/* PLAY BUTTON */}
+              <div className="play-button-big">
+                <span
+                  className="material-icons notranslate"
+                  translate="no"
+                  style={{
+                    fontSize: '65px',
+                    color: '#fff',
+                    marginLeft: '4px',
+                  }}
+                >
+                  play_arrow
+                </span>
               </div>
-              <div className="visible-xs-block" style={{ width: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', fontSize: '14px', fontWeight: 'bold' }}>
-                Slot Ads Mobile
+
+              {/* BOTTOM BAR */}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  padding: '12px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    height: '5px',
+                    borderRadius: '10px',
+                    background: 'rgba(255,255,255,.25)',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '35%',
+                      height: '100%',
+                      background:
+                        'linear-gradient(to right,#ef4444,#dc2626)',
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="col-md-4">
-            <h4 style={{ fontWeight: '800', color: '#1e293b', marginBottom: '20px', borderBottom: '2px solid #e2e8f0', paddingBottom: '10px' }}>Sedang Populer</h4>
-            <div className="row">
-              {randomVideos.map((vid, idx) => (
-                <div key={idx} className="col-xs-6 col-md-6" style={{ marginBottom: '20px' }}>
-                  <Link href={`/${vid.id_video}`} style={{ textDecoration: 'none', display: 'block' }}>
-                    <div style={{ position: 'relative', paddingTop: '56.25%', backgroundColor: '#1e293b', borderRadius: '4px', overflow: 'hidden', border: '1px solid #cbd5e1' }}>
-                      {vid.thumb ? (
-                        <img src={vid.thumb} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>No Image</div>
-                      )}
-                      <div style={{ position: 'absolute', bottom: '4px', right: '4px', background: 'rgba(0,0,0,0.7)', padding: '2px 5px', borderRadius: '2px' }}>
-                        <span className="material-icons notranslate" translate="no" style={{ fontSize: '14px', color: '#fff' }}>play_arrow</span>
-                      </div>
+          {/* BUTTON */}
+          <button className="watch-button">
+            ▶ TONTON SEKARANG
+          </button>
+        </button>
+      </form>
+
+      {/* ADS */}
+      <div className="ads-box">
+        <span
+          className="material-icons notranslate"
+          translate="no"
+          style={{
+            fontSize: '42px',
+            color: '#6366f1',
+          }}
+        >
+          monetization_on
+        </span>
+
+        <h4
+          style={{
+            marginTop: '10px',
+            fontWeight: '800',
+            color: '#1e293b',
+          }}
+        >
+          Area Iklan Responsive
+        </h4>
+
+        <p
+          style={{
+            color: '#64748b',
+            marginBottom: 0,
+          }}
+        >
+          Support MGID / Adsterra / Adsense
+        </p>
+      </div>
+
+      {/* POPULAR */}
+      <div className="popular-title">
+        <span
+          className="material-icons notranslate"
+          translate="no"
+          style={{
+            color: '#ef4444',
+          }}
+        >
+          local_fire_department
+        </span>
+
+        Video Populer Lainnya
+      </div>
+
+      <div className="row">
+        {randomVideos.map((vid, idx) => (
+          <div
+            key={idx}
+            className="col-xs-6 col-sm-4 col-md-3"
+            style={{ marginBottom: '22px' }}
+          >
+            <Link
+              href={`/${vid.id_video}`}
+              style={{
+                textDecoration: 'none',
+              }}
+            >
+              <div className="video-grid-card video-card-hover">
+
+                {/* THUMB */}
+                <div className="video-thumb">
+                  {vid.thumb ? (
+                    <img src={vid.thumb} alt={vid.title} />
+                  ) : (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#94a3b8',
+                      }}
+                    >
+                      No Image
                     </div>
-                    {/* Teks kepotong rapi */}
-                    <h5 style={{ fontSize: '13px', fontWeight: '700', color: '#334155', marginTop: '8px', marginBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {vid.title || 'Video'}
-                    </h5>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
+                  )}
 
-        </div>
+                  <div className="play-small">
+                    <span
+                      className="material-icons notranslate"
+                      translate="no"
+                      style={{
+                        fontSize: '18px',
+                        color: '#fff',
+                      }}
+                    >
+                      play_arrow
+                    </span>
+                  </div>
+                </div>
+
+                {/* BODY */}
+                <div className="video-card-body">
+                  <div className="video-card-title">
+                    {vid.title || 'Video Tanpa Judul'}
+                  </div>
+                </div>
+
+              </div>
+            </Link>
+          </div>
+        ))}
       </div>
+
     </div>
-  );
-}
+  </div>
+);
