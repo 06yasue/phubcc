@@ -19,21 +19,31 @@ export default async function RealVideoPage({ params }) {
   let videoData = null;
   let sourceTable = '';
 
-  const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
-  if (resManual.rows.length > 0) {
-    videoData = resManual.rows[0];
-    sourceTable = 'video_manual';
-  } else {
-    const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
-    if (resTxt.rows.length > 0) {
-      videoData = resTxt.rows[0];
-      sourceTable = 'video_txt';
+  // 1. CARI DATA DENGAN AMAN
+  try {
+    const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
+    if (resManual.rows.length > 0) {
+      videoData = resManual.rows[0];
+      sourceTable = 'video_manual';
     }
+  } catch (e) {}
+
+  if (!videoData) {
+    try {
+      const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
+      if (resTxt.rows.length > 0) {
+        videoData = resTxt.rows[0];
+        sourceTable = 'video_txt';
+      }
+    } catch (e) {}
   }
 
   if (!videoData) notFound();
 
-  await turso.execute({ sql: `UPDATE ${sourceTable} SET hitcount = hitcount + 1 WHERE id_video = ?`, args: [id_video] });
+  // 2. TAMBAH HITCOUNT DENGAN AMAN
+  try {
+    await turso.execute({ sql: `UPDATE ${sourceTable} SET hitcount = hitcount + 1 WHERE id_video = ?`, args: [id_video] });
+  } catch (e) {}
   
   const finalEmbedUrl = videoData.embed_url || videoData.embed_code;
 
