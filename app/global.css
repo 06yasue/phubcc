@@ -1,0 +1,21 @@
+/* app/global.css */
+
+/* Reset dasar agar lebih rapi */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #fcfcfc; /* Warna latar belakang sedikit abu-abu yang nyaman di mata */
+}
+
+/* Mengubah font default Bootstrap menjadi sedikit lebih modern (Opsional) */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Memperbaiki jarak iframe agar pas dengan container Bootstrap */
+iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
