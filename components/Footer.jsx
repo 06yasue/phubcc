@@ -4,60 +4,70 @@ import siteConfig from '@/config';
 export default function Footer() {
   return (
     <footer style={{
-      backgroundColor: '#f8fafc',
-      borderTop: '1px solid #e2e8f0',
+      backgroundColor: '#0f172a', // Premium Dark Slate
       padding: '50px 0 20px 0',
       marginTop: 'auto',
-      color: '#64748b',
+      color: '#94a3b8',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
     }}>
       <div className="container">
-        <div className="row">
+        <div className="row text-center-xs"> {/* Custom class untuk tengah di HP */}
           
-          {/* Kolom Kiri: Info Situs & Domain */}
-          <div className="col-md-6">
-            <h4 style={{ fontWeight: '800', color: '#1e293b', display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-              <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '8px', fontSize: '26px' }}>play_circle</span>
+          {/* Kolom Kiri: Branding Premium */}
+          <div className="col-sm-6" style={{ marginBottom: '30px' }}>
+            <h4 style={{ fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', marginBottom: '15px' }} className="footer-brand">
+              <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '28px' }}>play_circle</span>
               {siteConfig.sitename}
             </h4>
-            <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#475569' }}>
-              Platform manajemen video terpusat, cepat, dan aman.<br/>
-              Akses resmi via: <a href={`https://${siteConfig.domain}`} style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: '600' }} target="_blank" rel="noopener noreferrer">{siteConfig.domain}</a>
+            <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '400px' }} className="footer-desc">
+              Platform manajemen video terpusat, cepat, dan aman untuk mengelola database konten digitalmu.
             </p>
+            <div style={{ marginTop: '15px' }}>
+              <span style={{ fontSize: '13px', background: '#1e293b', padding: '6px 12px', borderRadius: '20px', color: '#3b82f6', border: '1px solid #334155' }}>
+                <span className="material-icons notranslate" translate="no" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>language</span>
+                {siteConfig.domain}
+              </span>
+            </div>
           </div>
 
-          {/* Kolom Kanan: Menu DMCA & Legal */}
-          <div className="col-md-6 text-right" style={{ paddingTop: '15px' }}>
-            <ul className="list-inline" style={{ fontSize: '14px', fontWeight: '600' }}>
-              <li>
-                <Link href="/dmca" style={{ color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                  <span className="material-icons notranslate" translate="no" style={{ fontSize: '16px', marginRight: '4px' }}>gavel</span> DMCA
-                </Link>
-              </li>
-              <li style={{ color: '#cbd5e1', margin: '0 10px' }}>|</li>
-              <li>
-                <Link href="/privacy" style={{ color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                  <span className="material-icons notranslate" translate="no" style={{ fontSize: '16px', marginRight: '4px' }}>shield</span> Privacy Policy
-                </Link>
-              </li>
-              <li style={{ color: '#cbd5e1', margin: '0 10px' }}>|</li>
-              <li>
-                <Link href="/terms" style={{ color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                  <span className="material-icons notranslate" translate="no" style={{ fontSize: '16px', marginRight: '4px' }}>article</span> Terms
-                </Link>
-              </li>
-            </ul>
+          {/* Kolom Kanan: Menu Navigasi Bawah */}
+          <div className="col-sm-6 text-right footer-links-area" style={{ marginTop: '10px' }}>
+            <div style={{ display: 'inline-flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end' }} className="footer-flex-center">
+              <Link href="/dmca" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+                <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>gavel</span> DMCA
+              </Link>
+              <Link href="/privacy" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+                <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>shield</span> Privacy
+              </Link>
+              <Link href="/terms" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+                <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>article</span> Terms
+              </Link>
+            </div>
           </div>
+          
         </div>
 
-        {/* Garis Bawah & Copyright */}
-        <hr style={{ borderColor: '#e2e8f0', margin: '30px 0 20px 0' }} />
-        <div className="text-center" style={{ fontSize: '13px', fontWeight: '500' }}>
+        {/* Garis Pemisah Super Tipis */}
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, #334155, transparent)', margin: '30px 0 20px 0' }}></div>
+        
+        {/* Copyright */}
+        <div className="text-center" style={{ fontSize: '13px', fontWeight: '500', color: '#64748b' }}>
           <span className="material-icons notranslate" translate="no" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>copyright</span>
-          {new Date().getFullYear()} {siteConfig.sitename}. All rights reserved.
+          {new Date().getFullYear()} {siteConfig.sitename}. All rights reserved. Built with Next.js
         </div>
 
       </div>
+
+      {/* CSS Tambahan khusus buat ngerapihin tampilan di HP */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (max-width: 767px) {
+          .text-center-xs { text-align: center !important; }
+          .footer-brand { justify-content: center !important; }
+          .footer-desc { margin: 0 auto !important; }
+          .footer-links-area { text-align: center !important; margin-top: 30px !important; }
+          .footer-flex-center { justify-content: center !important; gap: 15px !important; }
+        }
+      `}} />
     </footer>
   );
 }
