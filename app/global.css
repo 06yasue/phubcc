@@ -1,10 +1,5 @@
 /* app/global.css */
 
-/* IMPORT SEMUA DEPENDENSI DI SINI BIAR NEXT.JS GAK ERROR */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
 /* Box Sizing Reset */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -19,7 +14,6 @@ html, body {
 
 /* SETTING FONT SESUAI PERMINTAAN LO */
 body {
-  font-family: "Noto Sans JP", sans-seri !important;
   font-optical-sizing: auto;
   font-style: normal;
 }
