@@ -1,19 +1,27 @@
+"use client"; // Tambahkan ini di baris paling atas
 import Link from 'next/link';
 import siteConfig from '@/config';
+import { usePathname } from 'next/navigation'; // Import alat pendeteksi URL
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // LOGIKA PINTAR: Kalau URL depannya /tube_, jangan render Footer sama sekali
+  if (pathname && pathname.startsWith('/tube_')) {
+    return null; 
+  }
+
   return (
     <footer style={{
-      backgroundColor: '#0f172a', // Premium Dark Slate
+      backgroundColor: '#0f172a',
       padding: '50px 0 20px 0',
       marginTop: 'auto',
       color: '#94a3b8',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
     }}>
       <div className="container">
-        <div className="row text-center-xs"> {/* Custom class untuk tengah di HP */}
+        <div className="row text-center-xs">
           
-          {/* Kolom Kiri: Branding Premium */}
           <div className="col-sm-6" style={{ marginBottom: '30px' }}>
             <h4 style={{ fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', marginBottom: '15px' }} className="footer-brand">
               <span className="material-icons notranslate" translate="no" style={{ color: '#3b82f6', marginRight: '10px', fontSize: '28px' }}>play_circle</span>
@@ -30,16 +38,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Kolom Kanan: Menu Navigasi Bawah */}
           <div className="col-sm-6 text-right footer-links-area" style={{ marginTop: '10px' }}>
             <div style={{ display: 'inline-flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end' }} className="footer-flex-center">
-              <Link href="/dmca" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+              <Link href="/dmca" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500' }}>
                 <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>gavel</span> DMCA
               </Link>
-              <Link href="/privacy" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+              <Link href="/privacy" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500' }}>
                 <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>shield</span> Privacy
               </Link>
-              <Link href="/terms" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500', transition: 'color 0.2s' }}>
+              <Link href="/terms" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', fontSize: '15px', fontWeight: '500' }}>
                 <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '6px', color: '#64748b' }}>article</span> Terms
               </Link>
             </div>
@@ -47,18 +54,15 @@ export default function Footer() {
           
         </div>
 
-        {/* Garis Pemisah Super Tipis */}
         <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, #334155, transparent)', margin: '30px 0 20px 0' }}></div>
         
-        {/* Copyright */}
         <div className="text-center" style={{ fontSize: '13px', fontWeight: '500', color: '#64748b' }}>
           <span className="material-icons notranslate" translate="no" style={{ fontSize: '14px', verticalAlign: 'middle', marginRight: '4px' }}>copyright</span>
-          {new Date().getFullYear()} {siteConfig.sitename}. All rights reserved. Built with Next.js
+          {new Date().getFullYear()} {siteConfig.sitename}. All rights reserved.
         </div>
 
       </div>
 
-      {/* CSS Tambahan khusus buat ngerapihin tampilan di HP */}
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 767px) {
           .text-center-xs { text-align: center !important; }
