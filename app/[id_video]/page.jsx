@@ -1,68 +1,71 @@
 import { turso } from '@/lib/turso';
-import { notFound, redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import siteConfig from '@/config';
 import PlayButton from './PlayButton';
 
 export const dynamic = 'force-dynamic';
 
-// === FUNGSI SERVER ACTION (Dikeluarkan agar Vercel tidak Error 500) ===
-export async function grantAccess(id_video, slugTitle) {
-  'use server';
-  const cookieStore = await cookies();
-  cookieStore.set(`access_${id_video}`, 'granted', { maxAge: 900 });
-  redirect(`/tube_${id_video}/${slugTitle}`);
-}
-
 export default async function FakeVideoPage({ params }) {
-  const { id_video } = await params;
+  // Tangkap parameter dengan sangat aman (Bypass aturan ketat Next 15)
+  const resolvedParams = await params;
+  const id_video = resolvedParams.id_video || Object.values(resolvedParams)[0];
 
   let videoData = null;
   let thumbUrl = 'https://via.placeholder.com/800x450/1e293b/ffffff?text=Video+Player';
+  let debugLog = "";
 
-  // 1. CARI DATA DENGAN AMAN ANTI-CRASH
+  // CARI DATA (Catat jika ada error ke debugLog)
   try {
     const resManual = await turso.execute({ sql: "SELECT * FROM video_manual WHERE id_video = ?", args: [id_video] });
-    if (resManual && resManual.rows && resManual.rows.length > 0) {
+    if (resManual && resManual.rows.length > 0) {
       videoData = resManual.rows[0];
       if (videoData.image_url) thumbUrl = videoData.image_url;
     }
-  } catch (e) {}
+  } catch (e) { debugLog += ` [Manual Error: ${e.message}]`; }
 
   if (!videoData) {
     try {
       const resTxt = await turso.execute({ sql: "SELECT * FROM video_txt WHERE id_video = ?", args: [id_video] });
-      if (resTxt && resTxt.rows && resTxt.rows.length > 0) {
+      if (resTxt && resTxt.rows.length > 0) {
         videoData = resTxt.rows[0];
         if (videoData.main_thumbnail) thumbUrl = videoData.main_thumbnail;
       }
-    } catch (e) {}
+    } catch (e) { debugLog += ` [TXT Error: ${e.message}]`; }
   }
 
-  if (!videoData) notFound();
+  // ========================================================
+  // X-RAY DEBUGGER: JIKA DATA GAGAL DIAMBIL DARI DATABASE
+  // ========================================================
+  if (!videoData) {
+    return (
+      <div style={{ backgroundColor: '#fff', minHeight: '100vh', padding: '40px', color: '#1e293b' }}>
+        <h2 style={{ color: '#ef4444', borderBottom: '2px solid #ef4444', paddingBottom: '10px' }}>⚠️ SISTEM X-RAY: DATA GAGAL DITARIK</h2>
+        <div style={{ fontSize: '16px', lineHeight: '1.8' }}>
+          <p><strong>1. ID Target:</strong> <code>{id_video || 'KOSONG (Cek nama folder [id_video])'}</code></p>
+          <p><strong>2. Respon Turso:</strong> <code>{debugLog || 'Tidak ada error sistem. ID tersebut murni tidak ditemukan di tabel manapun.'}</code></p>
+          <hr />
+          <p style={{ color: '#8b5cf6', fontWeight: 'bold' }}>Saran Perbaikan Jika Respon Turso Menampilkan Error:</p>
+          <ul>
+            <li>Jika tertulis <b>"URL is required"</b> atau <b>"fetch failed"</b>: Artinya lo belum memasukkan <code>TURSO_DATABASE_URL</code> dan <code>TURSO_AUTH_TOKEN</code> di menu <b>Settings &gt; Environment Variables</b> pada Vercel Dashboard.</li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
-  // 2. PERSIAPAN DATA AMAN (Mencegah teks null bikin meledak)
+  // Lanjut render halaman Fake seperti biasa kalau data aman
   const safeTitle = videoData.title ? String(videoData.title) : 'Video Tanpa Judul';
   const safeHitcount = videoData.hitcount || 0;
   const slugTitle = safeTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') || 'video';
 
-  // 3. AMBIL 20 VIDEO ACAK DENGAN AMAN
   let randomVideos = [];
   try {
     const randManual = await turso.execute("SELECT id_video, title, image_url as thumb FROM video_manual ORDER BY RANDOM() LIMIT 20");
-    if (randManual && randManual.rows) randomVideos = [...randomVideos, ...randManual.rows];
-  } catch (e) {}
-  
-  try {
+    if (randManual.rows) randomVideos = [...randomVideos, ...randManual.rows];
     const randTxt = await turso.execute("SELECT id_video, title, main_thumbnail as thumb FROM video_txt ORDER BY RANDOM() LIMIT 20");
-    if (randTxt && randTxt.rows) randomVideos = [...randomVideos, ...randTxt.rows];
+    if (randTxt.rows) randomVideos = [...randomVideos, ...randTxt.rows];
   } catch (e) {}
-
   randomVideos = randomVideos.sort(() => 0.5 - Math.random()).slice(0, 20);
-
-  // Bind parameter ke fungsi server biar aman
-  const bindedGrantAccess = grantAccess.bind(null, id_video, slugTitle);
 
   return (
     <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', paddingBottom: '50px' }}>
@@ -83,9 +86,10 @@ export default async function FakeVideoPage({ params }) {
               {safeHitcount} Views
             </div>
 
-            <form action={bindedGrantAccess} style={{ marginBottom: '20px' }}>
-              <PlayButton thumbUrl={thumbUrl} />
-            </form>
+            <div style={{ marginBottom: '20px' }}>
+              {/* TOMBOL PLAY YG SUDAH BEBAS DARI FORM SERVER ACTION */}
+              <PlayButton thumbUrl={thumbUrl} id_video={id_video} slugTitle={slugTitle} />
+            </div>
 
             <div style={{ border: '1px solid #cbd5e1', background: '#e2e8f0', borderRadius: '4px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               <div className="hidden-xs" style={{ width: '100%', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', fontSize: '14px', fontWeight: 'bold' }}>
