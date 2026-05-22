@@ -28,7 +28,13 @@ export default function Footer() {
             </h4>
             <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#cbd5e1', maxWidth: '400px' }} className="footer-desc">
               
-             {siteConfig.sitename} is rated with the RTA label. Parents, you can easily block access to this site. Please read this page for more information.
+             {siteConfig.sitename} is rated with the RTA label. Parents, you can easily block access to this site. Please read  <a 
+    href="https://www.rtalabel.org/index.php?content=parents" 
+    target="_blank" 
+    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: 'bold' }}
+  >
+    this page
+  </a> for more information.
 
             </p>
             <div style={{ marginTop: '15px' }}>
