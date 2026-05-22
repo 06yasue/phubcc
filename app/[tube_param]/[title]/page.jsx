@@ -2,12 +2,13 @@ import { turso } from '@/lib/turso';
 import { notFound, redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import siteConfig from '@/config'; // Wajib ada untuk manggil sitename
 
 export const dynamic = 'force-dynamic';
 
 export default async function RealVideoPage({ params }) {
   // ==========================================
-  // LOGIKA ASLI (TIDAK DIRUBAH SAMA SEKALI)
+  // LOGIKA ASLI (TIDAK DIRUBAH)
   // ==========================================
   const { tube_param, title } = await params;
   const id_video = tube_param.replace('tube_', '');
@@ -41,22 +42,22 @@ export default async function RealVideoPage({ params }) {
   const finalEmbedUrl = videoData.embed_url || videoData.embed_code;
 
   // ==========================================
-  // TAMPILAN VIP PLAYER (RAPUH & KONVERSI TINGGI)
+  // TAMPILAN VIP PLAYER
   // ==========================================
   return (
     <div style={{ backgroundColor: '#0f172a', minHeight: '100vh', color: '#f8fafc', paddingBottom: '60px', fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
 
-      {/* HEADER DENGAN TOMBOL BACK */}
+      {/* HEADER DENGAN TOMBOL BACK KE VIDEO 1 */}
       <div style={{ background: '#1e293b', borderBottom: '1px solid #334155', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '25px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-        {/* Tombol Back */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', color: '#94a3b8', textDecoration: 'none', fontWeight: '600', transition: 'color 0.2s' }}>
+        {/* Tombol Back ke Fake Player */}
+        <Link href={`/${id_video}`} style={{ display: 'flex', alignItems: 'center', color: '#94a3b8', textDecoration: 'none', fontWeight: '600', transition: 'color 0.2s' }}>
           <span className="material-icons notranslate" translate="no" style={{ fontSize: '20px', marginRight: '4px' }}>arrow_back_ios</span>
           Back
         </Link>
         
-        {/* Judul Header */}
-        <h1 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: '#e2e8f0', letterSpacing: '1px' }}>
-          VIP PLAYER
+        {/* Judul Header (Dari config) */}
+        <h1 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: '#e2e8f0', letterSpacing: '1px', textTransform: 'uppercase' }}>
+          {siteConfig.sitename}
         </h1>
         
         {/* Spacer Biar Title Tetap Di Tengah */}
@@ -77,12 +78,12 @@ export default async function RealVideoPage({ params }) {
           </div>
         </div>
 
-        {/* JUDUL VIDEO (Diputus rapi kalau panjang) */}
+        {/* JUDUL VIDEO */}
         <h3 style={{ fontWeight: '800', marginTop: 0, marginBottom: '25px', fontSize: '20px', lineHeight: '1.4', color: '#f1f5f9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={videoData.title}>
           {videoData.title}
         </h3>
 
-        {/* AREA BAWAH: DIVIDER 2 KOLOM DI PC, 1 KOLOM DI HP */}
+        {/* AREA BAWAH: DIVIDER 2 KOLOM */}
         <div className="row">
           
           {/* KOLOM KIRI: DOWNLOAD & BANNER OFFER */}
@@ -90,10 +91,10 @@ export default async function RealVideoPage({ params }) {
             <div style={{ background: '#1e293b', padding: '20px', borderRadius: '8px', border: '1px solid #334155', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
               <h4 style={{ margin: '0 0 15px 0', fontSize: '15px', display: 'flex', alignItems: 'center', color: '#cbd5e1', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 <span className="material-icons notranslate" translate="no" style={{ marginRight: '8px', color: '#3b82f6' }}>cloud_download</span>
-                Download Source
+                Direct Source
               </h4>
 
-              {/* 1. Tombol Download HD Saja */}
+              {/* Tombol Download HD Saja */}
               <a href="LINK_OFFER_KAMU_DISINI" target="_blank" style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', padding: '14px 20px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <span className="material-icons notranslate" translate="no" style={{ marginRight: '10px', fontSize: '22px' }}>hd</span>
@@ -102,10 +103,9 @@ export default async function RealVideoPage({ params }) {
                 <span className="material-icons notranslate" translate="no" style={{ fontSize: '24px' }}>file_download</span>
               </a>
 
-              {/* 2. Image Banner (Dari folder public) dibungkus Link Offer */}
+              {/* Image Banner dn.jpeg dibungkus Link Offer */}
               <a href="LINK_OFFER_KAMU_DISINI" target="_blank" style={{ display: 'block', borderRadius: '6px', overflow: 'hidden', border: '1px solid #475569', transition: 'transform 0.2s', boxShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
-                {/* Pastikan nama file gambar lo sesuai sama yang ada di folder public */}
-                <img src="/dn.jpeg" alt="Download Now" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                <img src="/dn.jpeg" alt="Download Action" style={{ width: '100%', height: 'auto', display: 'block' }} />
               </a>
             </div>
           </div>
@@ -121,21 +121,21 @@ export default async function RealVideoPage({ params }) {
                 </div>
               </div>
 
-              {/* Artikel Peringatan Bahasa Inggris */}
+              {/* Artikel Peringatan Bahasa Inggris (Realistis) */}
               <h5 style={{ margin: '0 0 10px 0', color: '#fca5a5', fontWeight: '800', textAlign: 'center', fontSize: '18px' }}>
-                Video Not Playing?
+                Content Restricted
               </h5>
               <p style={{ color: '#f87171', fontSize: '13px', lineHeight: '1.6', marginBottom: '20px', textAlign: 'center' }}>
-                If the video is buffering or blocked, it may be due to ISP restrictions in your country. Please install a secure VPN application to unblock the video and stream smoothly.
+                This media content is currently blocked by your ISP or unavailable in your geographical region. To bypass these restrictions and ensure a secure, uninterrupted streaming experience, a Virtual Private Network is required.
               </p>
 
-              {/* Tombol Playstore VPN */}
+              {/* Tombol Playstore VPN (SVG Playstore) */}
               <a href="LINK_OFFER_VPN_KAMU" target="_blank" style={{ textDecoration: 'none', background: '#10b981', color: '#fff', padding: '14px 15px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '15px', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)' }}>
-                {/* SVG Ikon Ala Playstore */}
+                {/* SVG Ikon Google Play Asli */}
                 <svg style={{ width: '22px', height: '22px', marginRight: '8px', fill: '#fff' }} viewBox="0 0 24 24">
                   <path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5.38 0 .74.15 1.01.42l11.08 11.08-2.61 2.61L3 4.54V20.5zM15.59 14.01l3.52-3.52-3.52-3.52-2.61 2.61 2.61 2.61zM17.01 15.43l2.67-2.67c.39-.39.39-1.02 0-1.41l-2.67-2.67-1.42 1.42 1.96 1.96-1.96 1.96 1.42 1.42z"/>
                 </svg>
-                Get VPN on Play Store
+                Get it on Google Play
               </a>
             </div>
           </div>
