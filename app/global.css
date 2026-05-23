@@ -52,45 +52,72 @@ button:active {
 
 .top-ads-wrapper{
   width:100%;
-  text-align:center;
   margin:0;
   padding:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
-/* ADS */
+/* COMMON */
 .adsterra-mobile,
 .adsterra-desktop{
-  margin:0 auto 6px auto;
+  width:100%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  margin:0 auto 4px auto;
   padding:0;
-}
 
-/* MOBILE ONLY */
-.only-mobile{
-  display:block;
-}
-
-.only-desktop{
-  display:none;
-}
-
-/* DESKTOP */
-@media (min-width:768px){
-
-  .only-mobile{
-    display:none;
-  }
-
-  .only-desktop{
-    display:block;
-  }
-
+  overflow:hidden;
+  line-height:0;
 }
 
 /* IFRAMES */
 .adsterra-mobile iframe,
 .adsterra-desktop iframe{
   display:block !important;
+
   margin:0 auto !important;
+  padding:0 !important;
+
   border:0 !important;
-  max-width:100% !important;
+}
+
+/* REMOVE GAP */
+.adsterra-mobile *,
+.adsterra-desktop *{
+  line-height:0 !important;
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
+
+/* MOBILE */
+@media (max-width:767px){
+
+  .adsterra-mobile{
+    display:flex !important;
+  }
+
+  .adsterra-desktop{
+    display:none !important;
+  }
+
+}
+
+/* DESKTOP */
+@media (min-width:768px){
+
+  .adsterra-mobile{
+    display:none !important;
+  }
+
+  .adsterra-desktop{
+    display:flex !important;
+  }
+
 }
