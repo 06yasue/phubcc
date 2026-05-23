@@ -12,4 +12,3 @@ export default function robots() {
     sitemap: `https://${siteConfig.domain}/sitemap.xml`,
   }
 }
-
