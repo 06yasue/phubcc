@@ -10,10 +10,10 @@ export default function AdsBlock({ html }) {
 
     if (!ref.current) return;
 
-    // bersihkan dulu
+    // inject html
     ref.current.innerHTML = html;
 
-    // ambil semua script dalam component ini aja
+    // rerun scripts
     const scripts = ref.current.querySelectorAll('script');
 
     scripts.forEach((script) => {
@@ -26,12 +26,9 @@ export default function AdsBlock({ html }) {
         newScript.async = true;
       }
 
-      // copy inline script
-      if (script.innerHTML) {
-        newScript.innerHTML = script.innerHTML;
-      }
+      // copy inline js
+      newScript.innerHTML = script.innerHTML;
 
-      // replace
       script.parentNode.replaceChild(newScript, script);
 
     });
