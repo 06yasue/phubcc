@@ -1,7 +1,7 @@
 import './global.css';
 import Footer from '@/components/Footer';
 import siteConfig from '@/config';
-
+import MonetagAds from '@/components/MonetagAds';
 // ==========================================
 // SETTING SEO LENGKAP (AUTO GENERATE DARI NEXT.JS)
 // ==========================================
@@ -72,6 +72,7 @@ export default function RootLayout({ children }) {
         }} />
 
         <meta name="monetag" content="9d92bc323e751103d22575df3a119344" />
+        <MonetagAds />
        </head>
       <body>
         <div style={{ minHeight: '80vh' }}>
