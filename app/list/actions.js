@@ -9,7 +9,7 @@ export async function getVideos(type, page = 1, limit = 12) {
   try {
     // Ambil total data untuk hitung total halaman
     const countResult = await turso.execute(`SELECT COUNT(*) as total FROM ${table}`);
-    const totalItems = countResult.rows[0].total;
+    const totalItems = countResult.rows[0].total; // ini ditarik buat ditampilin
     const totalPages = Math.ceil(totalItems / limit) || 1;
 
     // Ambil data sesuai halaman
@@ -28,13 +28,14 @@ export async function getVideos(type, page = 1, limit = 12) {
       created_at: row.created_at
     }));
 
-    return { success: true, videos, totalPages, currentPage: page };
+    // Ditambah total: totalItems di sini bos
+    return { success: true, videos, totalPages, currentPage: page, total: totalItems };
   } catch (error) {
     return { success: false, error: error.message };
   }
 }
 
-// Fungsi untuk menghapus video
+// Fungsi untuk menghapus 1 video
 export async function deleteVideo(type, id_video) {
   const table = type === 'manual' ? 'video_manual' : 'video_txt';
   try {
@@ -42,6 +43,16 @@ export async function deleteVideo(type, id_video) {
       sql: `DELETE FROM ${table} WHERE id_video = ?`,
       args: [id_video]
     });
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// FUNGSI BARU: Untuk sapu bersih semua data khusus di tabel video_txt
+export async function deleteAllTxtVideos() {
+  try {
+    await turso.execute(`DELETE FROM video_txt`);
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
