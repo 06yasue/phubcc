@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import siteConfig from '@/config';
 import { getOfferLink } from './home-actions';
 // Pastikan path Footer ini sesuai sama struktur folder lo ya bos
-import Footer from '@/components/Footer'; 
+
 
 export default function HomePage() {
   const [offerLink, setOfferLink] = useState('#');
@@ -137,7 +137,7 @@ export default function HomePage() {
       </div>
 
       {/* FOOTER */}
-      <Footer />
+      
 
       {/* MODAL POPUP */}
       <div className={`custom-overlay ${isModalOpen ? 'active' : ''}`} style={{ display: isModalOpen ? 'flex' : 'none' }}>
