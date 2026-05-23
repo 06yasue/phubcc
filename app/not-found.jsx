@@ -104,10 +104,6 @@ export default function NotFound() {
         </Link>
       </div>
 
-      {/* FOOTER SITE NAME */}
-      <div style={{ position: 'absolute', bottom: '30px', color: '#475569', fontSize: '14px', fontWeight: '600', letterSpacing: '2px' }}>
-        &copy; 2026 {siteConfig.sitename.toUpperCase()} . SYSTEM ERROR
-      </div>
     </main>
   );
 }
