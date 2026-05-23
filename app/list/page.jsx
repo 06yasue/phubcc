@@ -1,12 +1,16 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { getVideos, deleteVideo } from './actions';
+// Tambahan fungsi deleteAllTxtVideos dari actions
+import { getVideos, deleteVideo, deleteAllTxtVideos } from './actions';
 import siteConfig from '@/config';
 
 export default function ListPage() {
   const [activeTab, setActiveTab] = useState('manual');
   const [videos, setVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // State untuk Total Video
+  const [totalVideos, setTotalVideos] = useState(0);
   
   // Pagination State
   const [page, setPage] = useState(1);
@@ -17,6 +21,9 @@ export default function ListPage() {
   const [msgType, setMsgType] = useState('success');
   const [copiedId, setCopiedId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  
+  // State untuk loading Hapus Semua
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
 
   // Ambil data setiap kali Tab atau Halaman berubah
   useEffect(() => {
@@ -29,6 +36,8 @@ export default function ListPage() {
     if (res.success) {
       setVideos(res.videos);
       setTotalPages(res.totalPages);
+      // Asumsi dari actions akan mengirimkan 'total'
+      setTotalVideos(res.total || 0); 
     } else {
       showNotif('Gagal mengambil data dari database', 'danger');
     }
@@ -58,10 +67,33 @@ export default function ListPage() {
     if (res.success) {
       showNotif('Video berhasil dihapus.', 'success');
       setVideos(videos.filter(v => v.id_video !== id_video));
+      setTotalVideos(prev => prev - 1); // Kurangi total secara real-time
     } else {
       showNotif('Gagal menghapus video.', 'danger');
     }
     setDeletingId(null);
+  };
+
+  // FUNGSI BARU: Hapus Semua Data TXT
+  const handleDeleteAllTxt = async () => {
+    if (!window.confirm('⚠️ PERINGATAN BAHAYA: Yakin mau menghapus SEMUA video dari Data TXT? Aksi ini tidak bisa dibatalkan bos!')) return;
+    
+    // Konfirmasi kedua biar gak kepencet gak sengaja
+    if (!window.confirm('Serius nih mau dihapus semua sampai bersih?')) return;
+
+    setIsDeletingAll(true);
+    const res = await deleteAllTxtVideos(); // Memanggil fungsi baru di actions.js
+
+    if (res.success) {
+      showNotif('BOM! Semua data TXT berhasil diratakan dengan tanah.', 'success');
+      setVideos([]); // Kosongkan layar
+      setTotalVideos(0);
+      setTotalPages(1);
+      setPage(1);
+    } else {
+      showNotif('Gagal menghapus semua data: ' + res.error, 'danger');
+    }
+    setIsDeletingAll(false);
   };
 
   // Gaya CSS Inline
@@ -94,11 +126,50 @@ export default function ListPage() {
   return (
     <div className="container" style={{ marginTop: '30px', marginBottom: '80px' }}>
       
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e2e8f0', paddingBottom: '15px', marginBottom: '20px' }}>
+      {/* HEADER AREA (Sudah dimodifikasi tambah Total & Delete All) */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e2e8f0', paddingBottom: '15px', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
         <h2 style={{ margin: 0, fontWeight: '800', color: '#1e293b', display: 'flex', alignItems: 'center' }}>
           <span className="material-icons notranslate" translate="no" style={{ fontSize: '32px', color: '#8b5cf6', marginRight: '10px' }}>video_library</span>
           Database Video
         </h2>
+
+        {/* Info Box Kanan: Total & Tombol Hapus Semua */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          
+          {/* Lencana Total Video */}
+          <div style={{ background: '#e0e7ff', color: '#4f46e5', padding: '6px 14px', borderRadius: '20px', fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center', border: '1px solid #c7d2fe' }}>
+            <span className="material-icons notranslate" translate="no" style={{ fontSize: '18px', marginRight: '5px' }}>bar_chart</span>
+            Total: {totalVideos}
+          </div>
+
+          {/* Tombol Hapus Semua (HANYA MUNCUL DI TAB TXT) */}
+          {activeTab === 'txt' && totalVideos > 0 && (
+            <button 
+              onClick={handleDeleteAllTxt}
+              disabled={isDeletingAll}
+              style={{ 
+                background: '#ef4444', 
+                color: '#fff', 
+                padding: '6px 15px', 
+                border: 'none', 
+                borderRadius: '6px', 
+                fontWeight: 'bold', 
+                fontSize: '14px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                cursor: isDeletingAll ? 'not-allowed' : 'pointer',
+                opacity: isDeletingAll ? 0.7 : 1,
+                boxShadow: '0 4px 6px -1px rgba(239, 68, 68, 0.3)'
+              }}
+            >
+              <span className="material-icons notranslate spin-if-deleting" translate="no" style={{ fontSize: '18px', marginRight: '5px' }}>
+                {isDeletingAll ? 'autorenew' : 'delete_sweep'}
+              </span>
+              {isDeletingAll ? 'Menghapus Semua...' : 'Hapus Semua TXT'}
+            </button>
+          )}
+
+        </div>
       </div>
 
       {/* Notifikasi Global */}
@@ -134,7 +205,7 @@ export default function ListPage() {
         </div>
       ) : (
         <>
-          {/* Grid Area: col-xs-6 (2 di HP), col-md-3 (4 di PC) */}
+          {/* Grid Area */}
           <div className="row">
             {videos.length === 0 ? (
               <div className="col-xs-12 text-center" style={{ padding: '40px', color: '#94a3b8' }}>
@@ -158,7 +229,7 @@ export default function ListPage() {
                       {/* Lencana Hitcount */}
                       <div style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(0,0,0,0.7)', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', display: 'flex', alignItems: 'center', fontWeight: 'bold' }}>
                         <span className="material-icons notranslate" translate="no" style={{ fontSize: '12px', marginRight: '4px', color: '#38bdf8' }}>visibility</span>
-                        {vid.hitcount}
+                        {vid.hitcount || 0}
                       </div>
                     </div>
 
@@ -170,7 +241,7 @@ export default function ListPage() {
                       
                       <div style={{ fontSize: '11px', color: '#64748b', display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
                         <span>ID: <strong>{vid.id_video}</strong></span>
-                        <span>{new Date(vid.created_at).toLocaleDateString('id-ID')}</span>
+                        <span>{vid.created_at ? new Date(vid.created_at).toLocaleDateString('id-ID') : '-'}</span>
                       </div>
 
                       {/* Tombol Aksi */}
@@ -215,7 +286,7 @@ export default function ListPage() {
             )}
           </div>
 
-          {/* Pagination: Prev 1/10 Next */}
+          {/* Pagination */}
           {totalPages > 1 && (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', gap: '15px' }}>
               <button 
