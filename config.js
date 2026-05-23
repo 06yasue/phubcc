@@ -1,7 +1,7 @@
 // config.js
 const siteConfig = {
-  sitename: "VideoApp",
-  domain: "phubcc.vercel.app" // Ubah dengan domain Vercel asli kamu
+  sitename: "StreamHub",
+  domain: "movies-next45.eu.org" // Ubah dengan domain Vercel asli kamu
 };
 
 export default siteConfig;
