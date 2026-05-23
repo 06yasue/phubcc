@@ -1,41 +1,48 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function AdsBlock({ html }) {
 
-  const adsRef = useRef(null);
+  const [content, setContent] = useState('');
 
   useEffect(() => {
 
-    if (!adsRef.current) return;
+    // Delay sedikit biar DOM ready
+    const timer = setTimeout(() => {
+      setContent(html);
+    }, 100);
 
-    // Cari semua script
-    const scripts = adsRef.current.querySelectorAll('script');
+    return () => clearTimeout(timer);
+
+  }, [html]);
+
+  useEffect(() => {
+
+    const scripts = document.querySelectorAll('.ads-block script');
 
     scripts.forEach((oldScript) => {
 
       const newScript = document.createElement('script');
 
-      // Copy attributes
+      // copy attributes
       Array.from(oldScript.attributes).forEach((attr) => {
         newScript.setAttribute(attr.name, attr.value);
       });
 
-      // Copy isi script
+      // inline script
       newScript.text = oldScript.innerHTML;
 
-      // Replace script lama
       oldScript.parentNode.replaceChild(newScript, oldScript);
 
     });
 
-  }, [html]);
+  }, [content]);
 
   return (
     <div
-      ref={adsRef}
-      dangerouslySetInnerHTML={{ __html: html }}
+      className="ads-block"
+      dangerouslySetInnerHTML={{ __html: content }}
     />
   );
 }
