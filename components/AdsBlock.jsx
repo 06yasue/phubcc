@@ -1,52 +1,42 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function AdsBlock({ html }) {
 
-  const adsRef = useRef(null);
-  const [content, setContent] = useState('');
+  const ref = useRef(null);
 
-  // render html setelah mount
   useEffect(() => {
 
-    const timer = setTimeout(() => {
-      setContent(html);
-    }, 100);
+    if (!ref.current) return;
 
-    return () => clearTimeout(timer);
+    // bersihkan dulu
+    ref.current.innerHTML = html;
 
-  }, [html]);
+    // ambil semua script dalam component ini aja
+    const scripts = ref.current.querySelectorAll('script');
 
-  // rerun script khusus dalam component ini aja
-  useEffect(() => {
-
-    if (!adsRef.current) return;
-
-    const scripts = adsRef.current.querySelectorAll('script');
-
-    scripts.forEach((oldScript) => {
+    scripts.forEach((script) => {
 
       const newScript = document.createElement('script');
 
-      // copy attributes
-      Array.from(oldScript.attributes).forEach((attr) => {
-        newScript.setAttribute(attr.name, attr.value);
-      });
+      // copy src
+      if (script.src) {
+        newScript.src = script.src;
+        newScript.async = true;
+      }
 
-      // copy isi script
-      newScript.innerHTML = oldScript.innerHTML;
+      // copy inline script
+      if (script.innerHTML) {
+        newScript.innerHTML = script.innerHTML;
+      }
 
-      oldScript.parentNode.replaceChild(newScript, oldScript);
+      // replace
+      script.parentNode.replaceChild(newScript, script);
 
     });
 
-  }, [content]);
+  }, [html]);
 
-  return (
-    <div
-      ref={adsRef}
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
-  );
+  return <div ref={ref}></div>;
 }
