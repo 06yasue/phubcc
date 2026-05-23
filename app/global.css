@@ -107,3 +107,14 @@ button:active {
   }
 
 }
+/* FIX JARAK ADS KE VIDEO */
+.top-ads-wrapper{
+  margin-bottom:-40px !important;
+}
+
+/* FIX ADS DESKTOP KE POTONG */
+.adsterra-desktop iframe{
+  width:728px !important;
+  height:90px !important;
+  max-width:none !important;
+}
