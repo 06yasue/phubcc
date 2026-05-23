@@ -104,22 +104,16 @@ export default async function FakeVideoPage({ params }) {
 
   {/* MOBILE */}
   {siteSettings?.ads_mobile && (
-    <div
-      className="adsterra-mobile"
-      dangerouslySetInnerHTML={{
-        __html: siteSettings.ads_mobile,
-      }}
-    />
+    <div className="adsterra-mobile">
+      <AdsBlock html={siteSettings.ads_mobile} />
+    </div>
   )}
 
   {/* DESKTOP */}
   {siteSettings?.ads_desktop && (
-    <div
-      className="adsterra-desktop"
-      dangerouslySetInnerHTML={{
-        __html: siteSettings.ads_desktop,
-      }}
-    />
+    <div className="adsterra-desktop">
+      <AdsBlock html={siteSettings.ads_desktop} />
+    </div>
   )}
 
 </div>
