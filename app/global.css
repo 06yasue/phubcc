@@ -50,7 +50,6 @@ button:active {
   -webkit-tap-highlight-color: transparent !important;
 }
 
-/* WRAPPER */
 .top-ads-wrapper{
   width:100%;
   display:flex;
@@ -58,63 +57,48 @@ button:active {
   align-items:center;
   justify-content:center;
 
-  margin:0 auto !important;
-  padding:0 !important;
+  margin:0;
+  padding:0;
 
-  overflow:hidden;
+  overflow:visible;
 }
 
-/* MOBILE */
-.adsterra-mobile{
-  width:320px !important;
-  height:50px !important;
-
-  margin:0 auto 12px auto !important;
-  padding:0 !important;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  overflow:hidden;
-}
-
-/* DESKTOP */
+/* COMMON */
+.adsterra-mobile,
 .adsterra-desktop{
-  width:728px !important;
-  height:90px !important;
+  width:100%;
+  text-align:center;
 
-  margin:0 auto 12px auto !important;
-  padding:0 !important;
+  margin:0 auto 12px auto;
+  padding:0;
 
-  display:none;
-  justify-content:center;
-  align-items:center;
-
-  overflow:hidden;
+  overflow:visible;
 }
 
-/* FORCE IFRAMES */
+/* IFRAME */
 .adsterra-mobile iframe,
 .adsterra-desktop iframe{
   display:block !important;
   margin:0 auto !important;
-  padding:0 !important;
   border:0 !important;
+  max-width:100% !important;
 }
 
-/* FIX SCRIPT GENERATED ELEMENTS */
-.adsterra-mobile *,
-.adsterra-desktop *{
-  box-sizing:border-box;
-  line-height:0 !important;
+/* MOBILE */
+.adsterra-mobile{
+  display:block;
 }
 
-/* MOBILE ONLY */
+/* DESKTOP */
+.adsterra-desktop{
+  display:none;
+}
+
+/* HP */
 @media (max-width:767px){
 
   .adsterra-mobile{
-    display:flex !important;
+    display:block !important;
   }
 
   .adsterra-desktop{
@@ -123,7 +107,7 @@ button:active {
 
 }
 
-/* DESKTOP ONLY */
+/* DESKTOP */
 @media (min-width:768px){
 
   .adsterra-mobile{
@@ -131,7 +115,7 @@ button:active {
   }
 
   .adsterra-desktop{
-    display:flex !important;
+    display:block !important;
   }
 
 }
