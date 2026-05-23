@@ -51,8 +51,6 @@ button:active {
 }
 
 /* WRAPPER */
-
-/* WRAPPER */
 .top-ads-wrapper{
   width:100%;
   display:flex;
@@ -71,12 +69,12 @@ button:active {
   width:320px !important;
   height:50px !important;
 
-  margin:0 auto !important;
+  margin:0 auto 12px auto !important;
   padding:0 !important;
 
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
   overflow:hidden;
 }
@@ -86,35 +84,38 @@ button:active {
   width:728px !important;
   height:90px !important;
 
-  margin:0 auto !important;
+  margin:0 auto 12px auto !important;
   padding:0 !important;
 
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
+  display:none;
+  justify-content:center;
+  align-items:center;
 
   overflow:hidden;
 }
 
-/* FORCE GENERATED IFRAMES */
+/* FORCE IFRAMES */
 .adsterra-mobile iframe,
 .adsterra-desktop iframe{
   display:block !important;
-
   margin:0 auto !important;
   padding:0 !important;
   border:0 !important;
 }
 
-/* REMOVE EXTRA SPACE */
+/* FIX SCRIPT GENERATED ELEMENTS */
 .adsterra-mobile *,
 .adsterra-desktop *{
-  line-height:0 !important;
   box-sizing:border-box;
+  line-height:0 !important;
 }
 
-/* RESPONSIVE */
-@media(max-width:767px){
+/* MOBILE ONLY */
+@media (max-width:767px){
+
+  .adsterra-mobile{
+    display:flex !important;
+  }
 
   .adsterra-desktop{
     display:none !important;
@@ -122,37 +123,15 @@ button:active {
 
 }
 
-@media(min-width:768px){
+/* DESKTOP ONLY */
+@media (min-width:768px){
 
   .adsterra-mobile{
     display:none !important;
   }
 
-}
+  .adsterra-desktop{
+    display:flex !important;
+  }
 
-.adsterra-desktop{
-  width:728px !important;
-  height:90px !important;
-
-  margin:0 auto 12px auto !important;
-  padding:0 !important;
-
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
-
-  overflow:hidden;
-}
-.adsterra-mobile{
-  width:320px !important;
-  height:50px !important;
-
-  margin:0 auto 12px auto !important;
-  padding:0 !important;
-
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
-
-  overflow:hidden;
 }
