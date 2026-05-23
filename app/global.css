@@ -50,44 +50,69 @@ button:active {
   -webkit-tap-highlight-color: transparent !important;
 }
 
+/* WRAPPER */
 .top-ads-wrapper{
   width:100%;
-  margin:0 auto !important;
-  padding:0 !important;
-
   display:flex;
   flex-direction:column;
   align-items:center;
-}
+  justify-content:center;
 
-/* ADS */
-.adsterra-mobile,
-.adsterra-desktop{
-  margin:0 auto -10px auto !important;
+  margin:0 auto !important;
   padding:0 !important;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  overflow:visible !important;
-  line-height:0 !important;
-}
-
-/* IFRAME */
-.adsterra-mobile iframe,
-.adsterra-desktop iframe{
-  display:block !important;
-  margin:0 auto !important;
-  border:0 !important;
+  overflow:hidden;
 }
 
 /* MOBILE */
-@media (max-width:767px){
+.adsterra-mobile{
+  width:320px !important;
+  height:50px !important;
 
-  .adsterra-mobile{
-    display:flex !important;
-  }
+  margin:0 auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
+}
+
+/* DESKTOP */
+.adsterra-desktop{
+  width:728px !important;
+  height:90px !important;
+
+  margin:0 auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
+}
+
+/* FORCE GENERATED IFRAMES */
+.adsterra-mobile iframe,
+.adsterra-desktop iframe{
+  display:block !important;
+
+  margin:0 auto !important;
+  padding:0 !important;
+  border:0 !important;
+}
+
+/* REMOVE EXTRA SPACE */
+.adsterra-mobile *,
+.adsterra-desktop *{
+  line-height:0 !important;
+  box-sizing:border-box;
+}
+
+/* RESPONSIVE */
+@media(max-width:767px){
 
   .adsterra-desktop{
     display:none !important;
@@ -95,15 +120,10 @@ button:active {
 
 }
 
-/* DESKTOP */
-@media (min-width:768px){
+@media(min-width:768px){
 
   .adsterra-mobile{
     display:none !important;
-  }
-
-  .adsterra-desktop{
-    display:flex !important;
   }
 
 }
