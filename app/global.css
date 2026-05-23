@@ -129,3 +129,30 @@ button:active {
   }
 
 }
+
+.adsterra-desktop{
+  width:728px !important;
+  height:90px !important;
+
+  margin:0 auto 12px auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
+}
+.adsterra-mobile{
+  width:320px !important;
+  height:50px !important;
+
+  margin:0 auto 12px auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
+}
