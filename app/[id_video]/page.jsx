@@ -53,9 +53,8 @@ export default async function FakeVideoPage({ params }) {
     
     // Arahkan ke rute /tube_xxx/judul-video
     redirect(`/tube_${id_video}/${slugTitle}`);
-  }
 
-  )}
+  }
                   
   return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
