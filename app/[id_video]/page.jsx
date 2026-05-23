@@ -102,16 +102,26 @@ export default async function FakeVideoPage({ params }) {
        
  <div className="top-ads-wrapper">
 
-  {siteSettings?.ads_mobile && (
-    <div className="adsterra-mobile">
-      <AdsBlock html={siteSettings.ads_mobile} />
-    </div>
+  {/* MOBILE */}
+  {typeof window !== 'undefined' &&
+    window.innerWidth < 768 &&
+    siteSettings?.ads_mobile && (
+      <div
+        className="adsterra-mobile"
+      >
+        <AdsBlock html={siteSettings.ads_mobile} />
+      </div>
   )}
 
-  {siteSettings?.ads_desktop && (
-    <div className="adsterra-desktop">
-      <AdsBlock html={siteSettings.ads_desktop} />
-    </div>
+  {/* DESKTOP */}
+  {typeof window !== 'undefined' &&
+    window.innerWidth >= 768 &&
+    siteSettings?.ads_desktop && (
+      <div
+        className="adsterra-desktop"
+      >
+        <AdsBlock html={siteSettings.ads_desktop} />
+      </div>
   )}
 
 </div>
