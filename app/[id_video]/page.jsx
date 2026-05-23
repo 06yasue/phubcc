@@ -118,9 +118,17 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-      {/* AREA ADS DESKTOP & MOBILE (Nempel Ekstrem & Pasti di Tengah) */}
+              {/* TRIK CSS PEMBUNUH SPASI IKLAN SILUMAN */}
+        <style dangerouslySetInnerHTML={{__html: `
+          .iklan-dempet { text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0; }
+          .iklan-dempet div, .iklan-dempet ins { margin: 0 auto !important; padding: 0 !important; }
+          .iklan-dempet iframe { display: block !important; margin: 0 auto !important; vertical-align: top !important; }
+          .iklan-dempet br { display: none !important; } /* Membunuh tag <br> bawaan dari script iklan */
+        `}} />
+
+        {/* AREA ADS DESKTOP & MOBILE (Dijamin Dempet 100% ke Video Player) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ width: '100%', textAlign: 'center', margin: '0 0 5px 0', padding: '0', lineHeight: 0, fontSize: 0 }}>
+          <div className="iklan-dempet" style={{ width: '100%', overflow: 'hidden' }}>
             {siteSettings.ads_desktop && (
               <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
