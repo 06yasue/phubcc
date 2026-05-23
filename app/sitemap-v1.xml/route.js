@@ -5,9 +5,13 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    // Tarik id_video dari tabel video_txt
-    // Kalau mau pakai tabel satunya, ganti 'video_txt' jadi 'video_manual'
-    const res = await turso.execute('SELECT id_video FROM video_txt ORDER BY id_video DESC LIMIT 5000');
+    // Menggabungkan id_video dari video_txt dan video_manual
+    const res = await turso.execute(`
+      SELECT id_video FROM video_txt
+      UNION
+      SELECT id_video FROM video_manual
+      LIMIT 5000
+    `);
     
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
