@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import siteConfig from '@/config';
 import AdsBlock from '@/components/AdsBlock';
+import ResponsiveAds from '@/components/ResponsiveAds';
 
 export const dynamic = 'force-dynamic';
 
@@ -100,23 +101,10 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
        
-<div className="top-ads-wrapper">
-
-  {/* MOBILE */}
-  {siteSettings?.ads_mobile && (
-    <div className="adsterra-mobile only-mobile">
-      <AdsBlock html={siteSettings.ads_mobile} />
-    </div>
-  )}
-
-  {/* DESKTOP */}
-  {siteSettings?.ads_desktop && (
-    <div className="adsterra-desktop only-desktop">
-      <AdsBlock html={siteSettings.ads_desktop} />
-    </div>
-  )}
-
-</div>
+        <ResponsiveAds
+          mobileAds={siteSettings.ads_mobile}
+          desktopAds={siteSettings.ads_desktop}
+        />
             
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
