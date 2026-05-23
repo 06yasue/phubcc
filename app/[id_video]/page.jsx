@@ -55,8 +55,25 @@ export default async function FakeVideoPage({ params }) {
     redirect(`/tube_${id_video}/${slugTitle}`);
   }
 
+  )}
+                  
   return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
+      
+      {/* ========================================== */}
+      {/* IKLAN FLOATING DI ATAS LAYAR (NGEGANTUNG)  */}
+      {/* ========================================== */}
+      {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
+        <div className="floating-top-ad">
+          {siteSettings.ads_desktop && (
+            <div className="desktop-ad-container" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+          )}
+          {siteSettings.ads_mobile && (
+            <div className="mobile-ad-container" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+          )}
+        </div>
+      )}
+
       <div className="container" style={{ maxWidth: '900px' }}>
         
         {/* 1. AREA HEADER */}
@@ -73,15 +90,15 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 2. AREA IKLAN HEADER */}
         {siteSettings?.ads_head && (
-          <div className="ads-wrapper" dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
         )}
 
-        {/* 3. JUDUL & HITCOUNT (Margin dibikin sekecil mungkin) */}
-        <h3 style={{ fontWeight: '800', color: '#0f172a', margin: '0 0 5px 0', lineHeight: '1.4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={videoData.title}>
+        {/* 3. JUDUL & HITCOUNT */}
+        <h3 style={{ fontWeight: '800', color: '#0f172a', margin: '0 0 10px 0', lineHeight: '1.4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={videoData.title}>
           {videoData.title}
         </h3>
       
-        <div style={{ color: '#64748b', fontSize: '14px', margin: '0 0 5px 0', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div style={{ color: '#64748b', fontSize: '14px', margin: '0 0 15px 0', display: 'flex', alignItems: 'center', gap: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#3b82f6' }} viewBox="0 0 24 24">
               <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
@@ -98,19 +115,7 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* AREA ADS DESKTOP & MOBILE (Dibungkus kelas pemaksa tengah) */}
-        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div className="ads-wrapper" style={{ margin: '0 0 5px 0' }}>
-            {siteSettings.ads_desktop && (
-              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
-            )}
-            {siteSettings.ads_mobile && (
-              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
-            )}
-          </div>
-        )}
-
-        {/* 4. FAKE VIDEO PLAYER (Nempel parah) */}
+        {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
           <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none', display: 'block' }}>
             <div id="player-container" style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', border: '1px solid #334155', transition: 'all 0.3s' }}>
@@ -132,7 +137,7 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 5. SLOT NATIVE BANNER ADS */}
         {siteSettings?.ads_native && (
-          <div className="ads-wrapper" style={{ marginTop: '5px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
         )}
 
         {/* GARIS PEMISAH */}
@@ -176,35 +181,42 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 7. AREA ADS FOOTER */}
         {siteSettings?.ads_footer && (
-          <div className="ads-wrapper" style={{ marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
         )}
 
       </div>
 
-      {/* SCRIPT & STYLE BRUTAL */}
+      {/* CSS KHUSUS FLOATING ADS & ANIMASI */}
       <style dangerouslySetInnerHTML={{__html: `
-        /* JURUS MAKSA IKLAN KE TENGAH DAN MATIIN SPASI */
-        .ads-wrapper {
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-          width: 100% !important;
-          margin: 0 auto !important;
-          padding: 0 !important;
-          line-height: 0 !important;
-          font-size: 0 !important;
-          overflow: hidden !important;
+        /* SETTINGAN FLOATING ADS */
+        .floating-top-ad {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 9999;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          pointer-events: none; /* Biar area kosong gak nutupin klik ke web lo */
         }
         
-        .ads-wrapper > div, .ads-wrapper > a, .ads-wrapper > ins, .ads-wrapper > iframe {
-          margin: 0 auto !important;
-          padding: 0 !important;
-          display: block !important;
+        .floating-top-ad > div {
+          pointer-events: auto; /* Iklan tetep bisa diklik */
+          background: rgba(255,255,255,0.95); /* Sedikit background biar iklan kebaca jelas */
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Bunuh enter / spasi siluman */
-        .ads-wrapper br { display: none !important; }
-        
+        /* MEDIA QUERY: Murni pake CSS buat misahin HP & Desktop (Gak bakal jebol lagi) */
+        @media (max-width: 768px) {
+          .desktop-ad-container { display: none !important; }
+          .mobile-ad-container { display: block !important; margin: 0 auto; }
+        }
+        @media (min-width: 769px) {
+          .desktop-ad-container { display: block !important; margin: 0 auto; }
+          .mobile-ad-container { display: none !important; }
+        }
+
         /* Animasi standar */
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -230,5 +242,4 @@ export default async function FakeVideoPage({ params }) {
       `}} />
     </div>
   );
-
 }
