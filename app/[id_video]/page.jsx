@@ -60,7 +60,7 @@ export default async function FakeVideoPage({ params }) {
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
       
       {/* ========================================== */}
-      {/* IKLAN FLOATING DI ATAS LAYAR (NGEGANTUNG)  */}
+      {/* IKLAN FLOATING DI ATAS LAYAR (TANPA PENGHALANG)  */}
       {/* ========================================== */}
       {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
         <div className="floating-top-ad">
@@ -89,7 +89,7 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 2. AREA IKLAN HEADER */}
         {siteSettings?.ads_head && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+          <div style={{ display: 'block', textAlign: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
         )}
 
         {/* 3. JUDUL & HITCOUNT */}
@@ -136,7 +136,7 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 5. SLOT NATIVE BANNER ADS */}
         {siteSettings?.ads_native && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
+          <div style={{ display: 'block', textAlign: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
         )}
 
         {/* GARIS PEMISAH */}
@@ -180,14 +180,18 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 7. AREA ADS FOOTER */}
         {siteSettings?.ads_footer && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
+          <div style={{ display: 'block', textAlign: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
         )}
 
       </div>
 
       {/* CSS KHUSUS FLOATING ADS & ANIMASI */}
       <style dangerouslySetInnerHTML={{__html: `
-        /* SETTINGAN FLOATING ADS */
+        /* ========================================= */
+        /* PERBAIKAN FATAL FLOATING ADS:
+           - Gak ada background putih lagi (penghalang mati)
+           - Width 100% block biar script ngebaca lebar desktop full 
+        /* ========================================= */
         .floating-top-ad {
           position: fixed;
           top: 0;
@@ -195,25 +199,33 @@ export default async function FakeVideoPage({ params }) {
           width: 100%;
           z-index: 9999;
           text-align: center;
-          display: flex;
-          justify-content: center;
-          pointer-events: none; /* Biar area kosong gak nutupin klik ke web lo */
+          pointer-events: none; /* Area kosong gak bisa diklik, tembus ke web */
         }
         
         .floating-top-ad > div {
-          pointer-events: auto; /* Iklan tetep bisa diklik */
-          background: rgba(255,255,255,0.95); /* Sedikit background biar iklan kebaca jelas */
-          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          pointer-events: auto; /* Iklannya tetep bisa diklik */
+          width: 100% !important;
+          display: block !important;
         }
 
-        /* MEDIA QUERY: Murni pake CSS buat misahin HP & Desktop (Gak bakal jebol lagi) */
+        /* MEDIA QUERY */
         @media (max-width: 768px) {
           .desktop-ad-container { display: none !important; }
-          .mobile-ad-container { display: block !important; margin: 0 auto; }
+          .mobile-ad-container { display: block !important; margin: 0 auto; text-align: center; }
         }
         @media (min-width: 769px) {
-          .desktop-ad-container { display: block !important; margin: 0 auto; }
+          .desktop-ad-container { display: block !important; margin: 0 auto; text-align: center; }
           .mobile-ad-container { display: none !important; }
+        }
+
+        /* Hapus spasi siluman dalam iklan */
+        .desktop-ad-container iframe, .mobile-ad-container iframe,
+        .desktop-ad-container ins, .mobile-ad-container ins {
+          margin: 0 auto !important;
+          display: block !important;
+        }
+        .desktop-ad-container br, .mobile-ad-container br {
+          display: none !important;
         }
 
         /* Animasi standar */
