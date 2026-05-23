@@ -2,9 +2,7 @@ import './global.css';
 import Footer from '@/components/Footer';
 import siteConfig from '@/config';
 import MonetagAds from '@/components/MonetagAds';
-// ==========================================
-// SETTING SEO LENGKAP (AUTO GENERATE DARI NEXT.JS)
-// ==========================================
+
 export const metadata = {
   title: `${siteConfig.sitename} - Premium Video Streaming`,
   description: `Discover and stream the best premium video content on ${siteConfig.sitename}. Enjoy high-quality streaming securely at ${siteConfig.domain}.`,
