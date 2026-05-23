@@ -55,59 +55,39 @@ export default async function FakeVideoPage({ params }) {
     redirect(`/tube_${id_video}/${slugTitle}`);
   }
 
-     return (
+  return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
       <div className="container" style={{ maxWidth: '900px' }}>
         
-        {/* 1. AREA HEADER (Logo & Site Name 3D Centered) */}
-        <div style={{ textAlign: 'center', marginBottom: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* 1. AREA HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img 
             src="/logo.png" 
             alt="Logo" 
             style={{ height: '55px', marginBottom: '12px', objectFit: 'contain', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }} 
           />
-          <h1 style={{ 
-            margin: 0, 
-            fontSize: '32px', 
-            fontWeight: '900', 
-            color: '#1e293b',
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-            textShadow: '1px 1px 0px #cbd5e1, 2px 2px 0px #94a3b8'
-          }}>
+          <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '900', color: '#1e293b', letterSpacing: '1px', textTransform: 'uppercase', textShadow: '1px 1px 0px #cbd5e1, 2px 2px 0px #94a3b8' }}>
             {siteConfig.sitename}
           </h1>
         </div>
 
-        {/* 2. AREA IKLAN HEADER (Taruh di atas Judul) */}
+        {/* 2. AREA IKLAN HEADER */}
         {siteSettings?.ads_head && (
-          <div style={{ display: 'table', margin: '0 auto 15px auto', overflow: 'hidden' }} 
-               dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+          <div className="ads-wrapper" dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
         )}
 
-        {/* 3. JUDUL & HITCOUNT */}
-        <h3 style={{ 
-          fontWeight: '800', 
-          color: '#0f172a', 
-          marginBottom: '10px', 
-          lineHeight: '1.4',
-          whiteSpace: 'nowrap', 
-          overflow: 'hidden', 
-          textOverflow: 'ellipsis' 
-        }} title={videoData.title}>
+        {/* 3. JUDUL & HITCOUNT (Margin dibikin sekecil mungkin) */}
+        <h3 style={{ fontWeight: '800', color: '#0f172a', margin: '0 0 5px 0', lineHeight: '1.4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={videoData.title}>
           {videoData.title}
         </h3>
       
-        <div style={{ color: '#64748b', fontSize: '14px', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '15px' }}>
-          {/* Ikon & Jumlah Views */}
+        <div style={{ color: '#64748b', fontSize: '14px', margin: '0 0 5px 0', display: 'flex', alignItems: 'center', gap: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#3b82f6' }} viewBox="0 0 24 24">
               <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
             </svg>
             <span style={{ fontWeight: '600' }}>{videoData.hitcount} Views</span>
           </div>
-
-          {/* Ikon & Tanggal Dibuat */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <svg style={{ width: '18px', height: '18px', marginRight: '6px', fill: '#64748b' }} viewBox="0 0 24 24">
               <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
@@ -118,17 +98,9 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-              {/* TRIK CSS PEMBUNUH SPASI IKLAN SILUMAN */}
-        <style dangerouslySetInnerHTML={{__html: `
-          .iklan-dempet { text-align: center; margin: 0; padding: 0; line-height: 0; font-size: 0; }
-          .iklan-dempet div, .iklan-dempet ins { margin: 0 auto !important; padding: 0 !important; }
-          .iklan-dempet iframe { display: block !important; margin: 0 auto !important; vertical-align: top !important; }
-          .iklan-dempet br { display: none !important; } /* Membunuh tag <br> bawaan dari script iklan */
-        `}} />
-
-        {/* AREA ADS DESKTOP & MOBILE (Dijamin Dempet 100% ke Video Player) */}
+        {/* AREA ADS DESKTOP & MOBILE (Dibungkus kelas pemaksa tengah) */}
         {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div className="iklan-dempet" style={{ width: '100%', overflow: 'hidden' }}>
+          <div className="ads-wrapper" style={{ margin: '0 0 5px 0' }}>
             {siteSettings.ads_desktop && (
               <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
             )}
@@ -138,9 +110,9 @@ export default async function FakeVideoPage({ params }) {
           </div>
         )}
 
-        {/* 4. FAKE VIDEO PLAYER */}
-          <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
-          <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none' }}>
+        {/* 4. FAKE VIDEO PLAYER (Nempel parah) */}
+        <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
+          <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none', display: 'block' }}>
             <div id="player-container" style={{ width: '100%', paddingTop: '56.25%', position: 'relative', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', border: '1px solid #334155', transition: 'all 0.3s' }}>
               <img id="player-thumb" src={thumbUrl} alt="Thumbnail" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85, transition: 'opacity 0.3s' }} />
               
@@ -158,28 +130,27 @@ export default async function FakeVideoPage({ params }) {
           </button>
         </form>
 
-        {/* 5. SLOT NATIVE BANNER ADS (Nempel pas di bawah Player) */}
+        {/* 5. SLOT NATIVE BANNER ADS */}
         {siteSettings?.ads_native && (
-          <div style={{ display: 'table', margin: '5px auto 0 auto', overflow: 'hidden' }} 
-               dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
+          <div className="ads-wrapper" style={{ marginTop: '5px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
         )}
 
-        {/* GARIS PEMISAH ELEGAN */}
-        <div style={{ display: 'flex', alignItems: 'center', margin: '40px 0' }}>
+        {/* GARIS PEMISAH */}
+        <div style={{ display: 'flex', alignItems: 'center', margin: '30px 0' }}>
           <div style={{ flex: 1, height: '2px', background: 'linear-gradient(90deg, transparent, #cbd5e1)' }}></div>
           <span className="material-icons notranslate" translate="no" style={{ margin: '0 15px', color: '#94a3b8' }}>videocam</span>
           <div style={{ flex: 1, height: '2px', background: 'linear-gradient(270deg, transparent, #cbd5e1)' }}></div>
         </div>
 
         {/* 6. VIDEO POPULER */}
-        <h4 style={{ fontWeight: '800', color: '#1e293b', marginBottom: '25px', display: 'flex', alignItems: 'center' }}>
+        <h4 style={{ fontWeight: '800', color: '#1e293b', marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
           <span className="material-icons notranslate" translate="no" style={{ color: '#f59e0b', marginRight: '8px', fontSize: '26px' }}>video_library</span>
           Other Pron {siteConfig.sitename} Sex Videos
         </h4>
         
         <div className="row">
           {randomVideos.map((vid, idx) => (
-            <div key={idx} className="col-xs-6 col-md-3" style={{ marginBottom: '25px' }}>
+            <div key={idx} className="col-xs-6 col-md-3" style={{ marginBottom: '20px' }}>
               <Link href={`/${vid.id_video}`} style={{ textDecoration: 'none', display: 'block' }} className="pop-card">
                 <div style={{ position: 'relative', paddingTop: '56.25%', backgroundColor: '#1e293b', borderRadius: '8px', overflow: 'hidden', border: '1px solid #cbd5e1', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
                   {vid.thumb ? (
@@ -203,15 +174,49 @@ export default async function FakeVideoPage({ params }) {
           ))}
         </div>
 
-        {/* 7. AREA ADS FOOTER (Paling bawah) */}
+        {/* 7. AREA ADS FOOTER */}
         {siteSettings?.ads_footer && (
-          <div style={{ display: 'table', margin: '15px auto 0 auto', overflow: 'hidden' }} 
-               dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
+          <div className="ads-wrapper" style={{ marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
         )}
 
       </div>
 
-      {/* SCRIPT & STYLE */}
+      {/* SCRIPT & STYLE BRUTAL */}
+      <style dangerouslySetInnerHTML={{__html: `
+        /* JURUS MAKSA IKLAN KE TENGAH DAN MATIIN SPASI */
+        .ads-wrapper {
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          width: 100% !important;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          line-height: 0 !important;
+          font-size: 0 !important;
+          overflow: hidden !important;
+        }
+        
+        .ads-wrapper > div, .ads-wrapper > a, .ads-wrapper > ins, .ads-wrapper > iframe {
+          margin: 0 auto !important;
+          padding: 0 !important;
+          display: block !important;
+        }
+
+        /* Bunuh enter / spasi siluman */
+        .ads-wrapper br { display: none !important; }
+        
+        /* Animasi standar */
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        .pop-card .pop-play { opacity: 0; transform: translate(-50%, -50%) scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .pop-card .pop-img { transition: transform 0.4s ease; }
+        
+        .pop-card:hover .pop-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .pop-card:hover .pop-img { transform: scale(1.08); opacity: 0.8; }
+        .pop-card:hover h5 { color: '#3b82f6' !important; }
+      `}} />
+
       <script dangerouslySetInnerHTML={{__html: `
         document.getElementById('main-video-form').addEventListener('submit', function() {
           document.getElementById('main-video-btn').style.cursor = 'wait';
@@ -223,18 +228,7 @@ export default async function FakeVideoPage({ params }) {
           document.getElementById('player-progress').style.width = '30%';
         });
       `}} />
-
-      <style dangerouslySetInnerHTML={{__html: `
-        .spin { animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        .pop-card .pop-play { opacity: 0; transform: translate(-50%, -50%) scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .pop-card .pop-img { transition: transform 0.4s ease; }
-        
-        .pop-card:hover .pop-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .pop-card:hover .pop-img { transform: scale(1.08); opacity: 0.8; }
-        .pop-card:hover h5 { color: '#3b82f6' !important; }
-      `}} />
     </div>
   );
+
 }
