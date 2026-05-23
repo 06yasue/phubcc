@@ -139,3 +139,12 @@ button:active {
 .top-ads-wrapper + div{
   margin-top:-55px !important;
 }
+
+/* JARAK ADS KE VIDEO */
+.adsterra-mobile{
+  margin-bottom:12px !important;
+}
+
+.adsterra-desktop{
+  margin-bottom:12px !important;
+}
