@@ -25,8 +25,59 @@ export async function generateMetadata() {
 
 export default function DmcaPage() {
   return (
-    // Background dibikin gelap elegan (slate-900) biar warna teks CSS lo yang terang bisa kebaca jelas
-    <div style={{ backgroundColor: '#0f172a', minHeight: '100vh', width: '100%' }}>
+    <div style={{ backgroundColor: '#0f172a', minHeight: '100vh', width: '100%', paddingBottom: '60px' }}>
+      
+      {/* SUNTIK CSS PAKSA DI SINI BIAR ANTI GAGAL */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .legal-container {
+          max-width: 850px;
+          margin: 0 auto;
+          padding: 40px 20px;
+          color: #e2e8f0 !important; /* Paksa teks jadi putih terang */
+          line-height: 1.8 !important;
+          font-size: 16px !important;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+        .legal-container h1 {
+          font-size: 32px !important;
+          font-weight: 900 !important;
+          color: #ffffff !important; /* Paksa judul putih bersih */
+          margin-bottom: 10px !important;
+          text-align: center !important;
+        }
+        .legal-date {
+          text-align: center !important;
+          color: #94a3b8 !important; /* Abu-abu terang */
+          font-size: 14px !important;
+          margin-bottom: 40px !important;
+          padding-bottom: 20px !important;
+          border-bottom: 1px solid #334155 !important;
+        }
+        .legal-container h2 {
+          font-size: 22px !important;
+          font-weight: 800 !important;
+          color: #f8fafc !important; /* Putih terang */
+          margin-top: 40px !important;
+          margin-bottom: 15px !important;
+        }
+        .legal-container p {
+          margin-bottom: 20px !important;
+          text-align: justify !important;
+        }
+        .legal-container ul {
+          margin-bottom: 25px !important;
+          padding-left: 25px !important;
+        }
+        .legal-container li {
+          margin-bottom: 12px !important;
+          text-align: justify !important;
+        }
+        .legal-container a {
+          color: #3b82f6 !important; /* Biru terang */
+          text-decoration: none !important;
+        }
+      `}} />
+
       <div className="legal-container">
         
         <h1>DMCA Copyright Policy</h1>
@@ -103,23 +154,12 @@ export default function DmcaPage() {
           limit access to the Website and/or terminate the accounts of any users who infringe any intellectual property 
           rights of others, whether or not there is any repeat infringement.
         </p>
-        <p>
-          It is our strict policy to permanently ban any IP address, user account, or automated bot that is found to be 
-          systematically uploading or scraping copyrighted materials without consent. Our automated systems and manual 
-          moderators work concurrently to ensure that repeat offenders are isolated and their access blocked permanently.
-        </p>
 
         <h2>5. Misrepresentations and False Claims</h2>
         <p>
           Please be fully aware that under Section 512(f) of the DMCA, any person who knowingly materially misrepresents 
           that material or activity is infringing, or that material or activity was removed or disabled by mistake or 
           misidentification, may be subject to liability and severe civil penalties, including costs and attorney's fees.
-        </p>
-        <p>
-          We strongly advise you to consult with an attorney or legal counsel before submitting a DMCA Notice or a 
-          Counter-Notification to ensure that you are fully aware of your rights and obligations under the law. We actively 
-          investigate all notices submitted to us and will not hesitate to pursue legal action against individuals who submit 
-          fraudulent, malicious, or automated/bot-generated DMCA requests designed to damage our website's reputation or rankings.
         </p>
 
         <h2>6. Third-Party Links and Embedded Content</h2>
@@ -136,28 +176,17 @@ export default function DmcaPage() {
         <p>
           Please note that under United States copyright law, certain uses of copyrighted material may be protected under 
           the doctrine of "Fair Use" (17 U.S.C. § 107). Before sending a takedown notice, please carefully evaluate whether 
-          the use of the material constitutes Fair Use. If the material is deemed to fall under Fair Use, your DMCA 
-          notification will be rejected, and you may be liable for damages resulting from a false claim.
+          the use of the material constitutes Fair Use.
         </p>
 
         <h2>8. Contact Information and Designated Agent</h2>
         <p>
           If you wish to notify us of the infringing material or activity, you may do so by sending an email to our 
-          Designated Copyright Agent. Please allow at least 2-5 business days for an email response. Note that emailing 
-          your complaint to other parties such as our Internet Service Provider will not expedite your request and may 
-          result in a delayed response due to the complaint not being filed properly.
+          Designated Copyright Agent. Please allow at least 2-5 business days for an email response.
         </p>
         <p>
           <strong>Email address for DMCA requests:</strong> <br />
           <a href={`mailto:dmca@${siteConfig.domain}`}>dmca@{siteConfig.domain}</a>
-        </p>
-
-        <h2>9. Modifications and Amendments</h2>
-        <p>
-          We reserve the right to modify this DMCA Policy or its terms relating to the Website and Services at any time, 
-          effective upon posting of an updated version of this Policy on the Website. When we do, we will revise the 
-          updated date at the top of this page. Continued use of the Website and Services after any such changes shall 
-          constitute your consent to such changes.
         </p>
 
       </div>
