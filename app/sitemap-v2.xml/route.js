@@ -5,20 +5,24 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    // 1. Ambil id_video DAN title dari tabel video_txt
-    const res = await turso.execute('SELECT id_video, title FROM video_txt ORDER BY id_video DESC LIMIT 5000');
+    // Menggabungkan id_video dan title dari kedua tabel
+    const res = await turso.execute(`
+      SELECT id_video, title FROM video_txt
+      UNION
+      SELECT id_video, title FROM video_manual
+      LIMIT 5000
+    `);
     
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${res.rows.map(row => {
-          // 2. Bersihin judul: ubah ke huruf kecil, hapus karakter aneh, ganti spasi jadi strip (-)
           const cleanTitle = row.title 
             ? row.title
                 .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '') // Hapus karakter selain huruf, angka, dan spasi
-                .replace(/\s+/g, '-')         // Ganti spasi jadi tanda -
-                .replace(/-+/g, '-')          // Mencegah strip ganda (--)
-            : 'video';                        // Cadangan kalau judulnya kosong
+                .replace(/[^a-z0-9\s-]/g, '') 
+                .replace(/\s+/g, '-')         
+                .replace(/-+/g, '-')          
+            : 'video';                        
 
           return `
             <url>
