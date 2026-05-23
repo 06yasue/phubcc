@@ -108,13 +108,29 @@ button:active {
 
 }
 /* FIX JARAK ADS KE VIDEO */
-.top-ads-wrapper{
-  margin-bottom:-40px !important;
-}
+.adsterra-mobile{
+  width:320px !important;
+  height:50px !important;
 
-/* FIX ADS DESKTOP KE POTONG */
-.adsterra-desktop iframe{
+  margin:0 auto 12px auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
+}
+.adsterra-desktop{
   width:728px !important;
   height:90px !important;
-  max-width:none !important;
+
+  margin:0 auto 12px auto !important;
+  padding:0 !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+
+  overflow:hidden;
 }
