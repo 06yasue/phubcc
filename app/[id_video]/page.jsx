@@ -100,7 +100,6 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
        
- <div className="top-ads-wrapper">
 <div className="top-ads-wrapper">
 
   {siteSettings?.ads_mobile && (
