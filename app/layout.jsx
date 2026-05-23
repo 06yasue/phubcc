@@ -70,6 +70,8 @@ export default function RootLayout({ children }) {
             }
           `
         }} />
+
+        <meta name="monetag" content="9d92bc323e751103d22575df3a119344" />
        </head>
       <body>
         <div style={{ minHeight: '80vh' }}>
