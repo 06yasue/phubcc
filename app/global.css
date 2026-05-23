@@ -49,3 +49,44 @@ button:active {
   box-shadow: none !important;
   -webkit-tap-highlight-color: transparent !important;
 }
+
+.desktop-ads,
+.mobile-ads {
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center;
+  line-height: 0;
+}
+
+.desktop-ads iframe,
+.desktop-ads div,
+.desktop-ads ins,
+.mobile-ads iframe,
+.mobile-ads div,
+.mobile-ads ins {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-ads {
+    display: none !important;
+  }
+
+  .mobile-ads {
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-ads {
+    display: none !important;
+  }
+
+  .desktop-ads {
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
