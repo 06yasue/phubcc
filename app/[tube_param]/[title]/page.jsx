@@ -126,7 +126,7 @@ const siteSettings = settingsResult.rows[0];
             </a>
 
             {/* Image Banner dn.jpeg dibungkus Link Offer */}
-            <a href="LINK_OFFER_KAMU_DISINI" target="_blank" style={{ display: 'block', borderRadius: '6px', overflow: 'hidden', border: '1px solid #1e293b', transition: 'transform 0.2s', boxShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
+            <a href={siteSettings.link_offer || '#'} target="_blank" style={{ display: 'block', borderRadius: '6px', overflow: 'hidden', border: '1px solid #1e293b', transition: 'transform 0.2s', boxShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>
               <img src="/dn.jpeg" alt="Download Action" style={{ width: '100%', height: 'auto', display: 'block' }} />
             </a>
           </div>
@@ -151,7 +151,7 @@ const siteSettings = settingsResult.rows[0];
               </p>
 
               {/* Tombol Playstore VPN (SVG Playstore Realistis) */}
-              <a href="LINK_OFFER_VPN_KAMU" target="_blank" style={{ textDecoration: 'none', background: '#10b981', color: '#fff', padding: '14px 15px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '15px', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)' }}>
+              <a href={siteSettings.link_vpn || '#'} target="_blank" style={{ textDecoration: 'none', background: '#10b981', color: '#fff', padding: '14px 15px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '15px', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)' }}>
                 {/* SVG Ikon Google Play Asli */}
                 <svg style={{ width: '20px', height: '20px', marginRight: '8px', fill: '#fff' }} viewBox="0 0 24 24">
                   <path d="M18.9 11.2l-13-7.5C5.3 3.4 4.5 3.8 4.5 4.5v15c0 .7.8 1.1 1.4.8l13-7.5c.6-.4.6-1.2 0-1.6z"/>
