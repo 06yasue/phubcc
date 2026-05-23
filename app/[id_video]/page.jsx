@@ -99,19 +99,91 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* AREA IKLAN TOP (Header & Desktop/Mobile) */}
-<div style={{ width: '100%', display: 'grid', placeItems: 'center', margin: '0', padding: '0' }}>
+        {/* AREA IKLAN TOP — CENTER FIX + TANPA JARAK */}
+<div
+  style={{
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 0,
+    padding: 0,
+    lineHeight: 0,
+    overflow: 'hidden',
+  }}
+>
+
+  {/* ADS HEADER */}
   {siteSettings?.ads_head && (
-    <div style={{ width: '100%', textAlign: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 0,
+        padding: 0,
+        lineHeight: 0,
+      }}
+      dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }}
+    />
   )}
+
+  {/* ADS DESKTOP & MOBILE */}
   {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-    <div style={{ width: '100%', textAlign: 'center', marginBottom: '5px' }}>
-      {siteSettings.ads_desktop && <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />}
-      {siteSettings.ads_mobile && <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />}
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 0,
+        padding: 0,
+        lineHeight: 0,
+      }}
+    >
+
+      {/* DESKTOP */}
+      {siteSettings.ads_desktop && (
+        <div
+          className="desktop-ads"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 0,
+            padding: 0,
+            width: '100%',
+            lineHeight: 0,
+          }}
+          dangerouslySetInnerHTML={{
+            __html: siteSettings.ads_desktop,
+          }}
+        />
+      )}
+
+      {/* MOBILE */}
+      {siteSettings.ads_mobile && (
+        <div
+          className="mobile-ads"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 0,
+            padding: 0,
+            width: '100%',
+            lineHeight: 0,
+          }}
+          dangerouslySetInnerHTML={{
+            __html: siteSettings.ads_mobile,
+          }}
+        />
+      )}
     </div>
   )}
 </div>
-
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
           <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none', display: 'block' }}>
