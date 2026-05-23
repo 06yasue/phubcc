@@ -58,24 +58,9 @@ export default async function FakeVideoPage({ params }) {
                  
   return (
     <div style={{ backgroundColor: '#f1f5f9', minHeight: '100vh', paddingTop: '30px', paddingBottom: '60px' }}>
-      
-      {/* ========================================== */}
-      {/* IKLAN FLOATING DI ATAS LAYAR (TANPA PENGHALANG)  */}
-      {/* ========================================== */}
-      {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-        <div className="floating-top-ad">
-          {siteSettings.ads_desktop && (
-            <div className="desktop-ad-container" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
-          )}
-          {siteSettings.ads_mobile && (
-            <div className="mobile-ad-container" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
-          )}
-        </div>
-      )}
-
       <div className="container" style={{ maxWidth: '900px' }}>
         
-        {/* 1. AREA HEADER */}
+        {/* 1. AREA HEADER LOGO */}
         <div style={{ textAlign: 'center', marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img 
             src="/logo.png" 
@@ -89,7 +74,7 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 2. AREA IKLAN HEADER */}
         {siteSettings?.ads_head && (
-          <div style={{ display: 'block', textAlign: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+          <div style={{ textAlign: 'center', width: '100%', marginBottom: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
         )}
 
         {/* 3. JUDUL & HITCOUNT */}
@@ -114,6 +99,18 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
+        {/* AREA ADS DESKTOP & MOBILE (Pasti Berfungsi Tanpa Error) */}
+        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
+          <div style={{ textAlign: 'center', width: '100%', marginBottom: '10px' }}>
+            {siteSettings.ads_desktop && (
+              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
+            )}
+            {siteSettings.ads_mobile && (
+              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
+            )}
+          </div>
+        )}
+
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
           <button type="submit" id="main-video-btn" style={{ width: '100%', border: 'none', padding: 0, background: 'transparent', cursor: 'pointer', position: 'relative', outline: 'none', display: 'block' }}>
@@ -136,7 +133,7 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 5. SLOT NATIVE BANNER ADS */}
         {siteSettings?.ads_native && (
-          <div style={{ display: 'block', textAlign: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
+          <div style={{ textAlign: 'center', width: '100%', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_native }} />
         )}
 
         {/* GARIS PEMISAH */}
@@ -180,55 +177,16 @@ export default async function FakeVideoPage({ params }) {
 
         {/* 7. AREA ADS FOOTER */}
         {siteSettings?.ads_footer && (
-          <div style={{ display: 'block', textAlign: 'center', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
+          <div style={{ textAlign: 'center', width: '100%', marginTop: '15px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_footer }} />
         )}
 
       </div>
 
-      {/* CSS KHUSUS FLOATING ADS & ANIMASI */}
+      {/* SCRIPT & STYLE BAWAAN (Tanpa Hack Iklan) */}
       <style dangerouslySetInnerHTML={{__html: `
-        /* ========================================= */
-        /* PERBAIKAN FATAL FLOATING ADS:
-           - Gak ada background putih lagi (penghalang mati)
-           - Width 100% block biar script ngebaca lebar desktop full 
-        /* ========================================= */
-        .floating-top-ad {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          z-index: 9999;
-          text-align: center;
-          pointer-events: none; /* Area kosong gak bisa diklik, tembus ke web */
-        }
-        
-        .floating-top-ad > div {
-          pointer-events: auto; /* Iklannya tetep bisa diklik */
-          width: 100% !important;
-          display: block !important;
-        }
+        /* Maksa iframe iklan buat ke tengah secara natural */
+        iframe { margin: 0 auto !important; display: block; }
 
-        /* MEDIA QUERY */
-        @media (max-width: 768px) {
-          .desktop-ad-container { display: none !important; }
-          .mobile-ad-container { display: block !important; margin: 0 auto; text-align: center; }
-        }
-        @media (min-width: 769px) {
-          .desktop-ad-container { display: block !important; margin: 0 auto; text-align: center; }
-          .mobile-ad-container { display: none !important; }
-        }
-
-        /* Hapus spasi siluman dalam iklan */
-        .desktop-ad-container iframe, .mobile-ad-container iframe,
-        .desktop-ad-container ins, .mobile-ad-container ins {
-          margin: 0 auto !important;
-          display: block !important;
-        }
-        .desktop-ad-container br, .mobile-ad-container br {
-          display: none !important;
-        }
-
-        /* Animasi standar */
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         
