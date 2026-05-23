@@ -148,3 +148,86 @@ button:active {
 .adsterra-desktop{
   margin-bottom:12px !important;
 }
+
+/* ========================================== */
+/* KHUSUS HALAMAN LEGAL (DMCA, PRIVACY, TERMS) */
+/* ========================================== */
+
+/* Pembungkus utama: Tanpa box, lebar dibatasi biar enak dibaca, otomatis ke tengah */
+.legal-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 20px 80px 20px;
+  color: #cbd5e1; /* Warna teks abu-abu terang, anti silau */
+  line-height: 1.8; /* Jarak antar baris dibikin renggang biar mata gak capek */
+  font-size: 16px;
+  
+  /* JURUS ANTI TEKS NGELEBER: Memaksa teks/link panjang patah ke bawah */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Judul Paling Atas (H1) */
+.legal-container h1 {
+  font-size: 36px;
+  font-weight: 900;
+  color: #f8fafc; /* Putih terang */
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Tanggal Update / Sub-judul */
+.legal-date {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #1e293b; /* Garis pemisah elegan di bawah judul */
+}
+
+/* Sub-Judul Pasal / Bagian (H2, H3) */
+.legal-container h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #e2e8f0;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* Paragraf Standar */
+.legal-container p {
+  margin-bottom: 20px;
+  text-align: justify; /* Teks rata kanan-kiri biar rapi kayak koran/dokumen resmi */
+}
+
+/* List / Daftar (Syarat 1, Syarat 2, dst) */
+.legal-container ul, 
+.legal-container ol {
+  margin-bottom: 25px;
+  padding-left: 25px;
+}
+
+.legal-container li {
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+/* Link di dalam teks legal (misal link email kontak) */
+.legal-container a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.legal-container a:hover {
+  color: #60a5fa;
+  text-decoration: underline;
+}
