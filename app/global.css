@@ -153,81 +153,65 @@ button:active {
 /* KHUSUS HALAMAN LEGAL (DMCA, PRIVACY, TERMS) */
 /* ========================================== */
 
-/* Pembungkus utama: Tanpa box, lebar dibatasi biar enak dibaca, otomatis ke tengah */
 .legal-container {
   max-width: 850px;
   margin: 0 auto;
   padding: 40px 20px 80px 20px;
-  color: #cbd5e1; /* Warna teks abu-abu terang, anti silau */
-  line-height: 1.8; /* Jarak antar baris dibikin renggang biar mata gak capek */
-  font-size: 16px;
-  
-  /* JURUS ANTI TEKS NGELEBER: Memaksa teks/link panjang patah ke bawah */
+  color: #e2e8f0 !important; /* Putih terang */
+  line-height: 1.6 !important; /* Jarak baris dirapatkan biar enak dibaca */
+  font-size: 16px !important;
+  font-family: system-ui, -apple-system, sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
-/* Judul Paling Atas (H1) */
 .legal-container h1 {
-  font-size: 36px;
-  font-weight: 900;
-  color: #f8fafc; /* Putih terang */
-  margin-bottom: 10px;
-  text-align: center;
-  letter-spacing: 1px;
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin-bottom: 10px !important;
+  text-align: center !important;
 }
 
-/* Tanggal Update / Sub-judul */
 .legal-date {
-  text-align: center;
-  color: #64748b;
-  font-size: 14px;
-  margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #1e293b; /* Garis pemisah elegan di bawah judul */
+  text-align: center !important;
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  margin-bottom: 40px !important;
+  padding-bottom: 20px !important;
+  border-bottom: 1px solid #334155 !important;
 }
 
-/* Sub-Judul Pasal / Bagian (H2, H3) */
 .legal-container h2 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #e2e8f0;
-  margin-top: 40px;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  color: #f8fafc !important;
+  margin-top: 40px !important;
+  margin-bottom: 15px !important;
 }
 
-/* Paragraf Standar */
+/* OBAT SPASI BOLONG: Rata Kiri (Left) */
 .legal-container p {
-  margin-bottom: 20px;
-  text-align: justify; /* Teks rata kanan-kiri biar rapi kayak koran/dokumen resmi */
+  margin-bottom: 20px !important;
+  text-align: left !important; 
 }
 
-/* List / Daftar (Syarat 1, Syarat 2, dst) */
 .legal-container ul, 
 .legal-container ol {
-  margin-bottom: 25px;
-  padding-left: 25px;
+  margin-bottom: 25px !important;
+  padding-left: 20px !important;
 }
 
+/* OBAT SPASI BOLONG: Rata Kiri (Left) */
 .legal-container li {
-  margin-bottom: 12px;
-  text-align: justify;
+  margin-bottom: 12px !important;
+  text-align: left !important; 
 }
 
-/* Link di dalam teks legal (misal link email kontak) */
 .legal-container a {
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s ease;
+  color: #3b82f6 !important;
+  text-decoration: none !important;
 }
-
 .legal-container a:hover {
-  color: #60a5fa;
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
