@@ -44,6 +44,14 @@ export default async function RealVideoPage({ params }) {
   // ==========================================
   // UI VIP PLAYER (FLOATING HEADER & TANPA BOX)
   // ==========================================
+
+  
+const settingsResult = await turso.execute(
+  "SELECT link_offer, link_vpn FROM site_settings WHERE id = 1"
+);
+
+const siteSettings = settingsResult.rows[0];
+  
   return (
     <div style={{ backgroundColor: '#020617', minHeight: '100vh', color: '#f8fafc', paddingBottom: '60px' }}>
 
@@ -109,7 +117,7 @@ export default async function RealVideoPage({ params }) {
             </h4>
 
             {/* Tombol Download HD Saja */}
-            <a href="LINK_OFFER_KAMU_DISINI" target="_blank" style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', padding: '14px 20px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)' }}>
+            <a href={siteSettings.link_offer || '#'} target="_blank" style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: '#fff', padding: '14px 20px', borderRadius: '6px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <span className="material-icons notranslate" translate="no" style={{ marginRight: '10px', fontSize: '22px' }}>hd</span>
                 <span style={{ fontSize: '15px' }}>Download 1080p HD (MP4)</span>
