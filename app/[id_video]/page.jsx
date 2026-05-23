@@ -99,23 +99,22 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-   {/* TOP ADS */}
-<div className="top-ads-wrapper">
+   <div className="top-ads-wrapper">
 
-  {/* MOBILE ADS */}
+  {/* MOBILE */}
   {siteSettings?.ads_mobile && (
     <div
-      className="adsterra-container mobile-only"
+      className="adsterra-mobile"
       dangerouslySetInnerHTML={{
         __html: siteSettings.ads_mobile,
       }}
     />
   )}
 
-  {/* DESKTOP ADS */}
+  {/* DESKTOP */}
   {siteSettings?.ads_desktop && (
     <div
-      className="adsterra-container desktop-only"
+      className="adsterra-desktop"
       dangerouslySetInnerHTML={{
         __html: siteSettings.ads_desktop,
       }}
@@ -123,7 +122,6 @@ export default async function FakeVideoPage({ params }) {
   )}
 
 </div>
-
             
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
