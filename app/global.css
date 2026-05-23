@@ -50,8 +50,9 @@ button:active {
 
 /* WRAPPER */
 .top-ads-wrapper{
+.top-ads-wrapper{
   width:100%;
-  margin:0 auto -45px auto !important;
+  margin:0 auto !important;
   padding:0 !important;
 
   display:flex;
@@ -61,7 +62,6 @@ button:active {
 
   line-height:0 !important;
 }
-
 /* COMMON */
 .adsterra-mobile,
 .adsterra-desktop{
@@ -135,4 +135,8 @@ button:active {
     display:flex !important;
   }
 
+}
+/* ADS KE VIDEO RAPET */
+.top-ads-wrapper + div{
+  margin-top:-70px !important;
 }
