@@ -99,17 +99,18 @@ export default async function FakeVideoPage({ params }) {
           </div>
         </div>
 
-        {/* AREA ADS DESKTOP & MOBILE (Pasti Berfungsi Tanpa Error) */}
-        {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
-          <div style={{ textAlign: 'center', width: '100%', marginBottom: '10px' }}>
-            {siteSettings.ads_desktop && (
-              <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />
-            )}
-            {siteSettings.ads_mobile && (
-              <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />
-            )}
-          </div>
-        )}
+        {/* AREA IKLAN TOP (Header & Desktop/Mobile) */}
+<div style={{ width: '100%', display: 'grid', placeItems: 'center', margin: '0', padding: '0' }}>
+  {siteSettings?.ads_head && (
+    <div style={{ width: '100%', textAlign: 'center', marginBottom: '10px' }} dangerouslySetInnerHTML={{ __html: siteSettings.ads_head }} />
+  )}
+  {(siteSettings?.ads_desktop || siteSettings?.ads_mobile) && (
+    <div style={{ width: '100%', textAlign: 'center', marginBottom: '5px' }}>
+      {siteSettings.ads_desktop && <div className="hidden-xs" dangerouslySetInnerHTML={{ __html: siteSettings.ads_desktop }} />}
+      {siteSettings.ads_mobile && <div className="visible-xs-block" dangerouslySetInnerHTML={{ __html: siteSettings.ads_mobile }} />}
+    </div>
+  )}
+</div>
 
         {/* 4. FAKE VIDEO PLAYER */}
         <form id="main-video-form" action={grantAccess} style={{ margin: 0, padding: 0 }}>
