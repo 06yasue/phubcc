@@ -104,14 +104,14 @@ export default async function FakeVideoPage({ params }) {
 
   {/* MOBILE */}
   {siteSettings?.ads_mobile && (
-    <div className="adsterra-mobile">
+    <div className="adsterra-mobile only-mobile">
       <AdsBlock html={siteSettings.ads_mobile} />
     </div>
   )}
 
   {/* DESKTOP */}
   {siteSettings?.ads_desktop && (
-    <div className="adsterra-desktop">
+    <div className="adsterra-desktop only-desktop">
       <AdsBlock html={siteSettings.ads_desktop} />
     </div>
   )}
