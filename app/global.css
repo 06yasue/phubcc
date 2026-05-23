@@ -52,48 +52,34 @@ button:active {
 
 .top-ads-wrapper{
   width:100%;
-  margin:0;
-  padding:0;
+  margin:0 auto !important;
+  padding:0 !important;
 
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
 }
 
-/* COMMON */
+/* ADS */
 .adsterra-mobile,
 .adsterra-desktop{
-  width:100%;
+  margin:0 auto -10px auto !important;
+  padding:0 !important;
 
   display:flex;
   justify-content:center;
   align-items:center;
 
-  margin:0 auto 4px auto;
-  padding:0;
-
-  overflow:hidden;
-  line-height:0;
+  overflow:visible !important;
+  line-height:0 !important;
 }
 
-/* IFRAMES */
+/* IFRAME */
 .adsterra-mobile iframe,
 .adsterra-desktop iframe{
   display:block !important;
-
   margin:0 auto !important;
-  padding:0 !important;
-
   border:0 !important;
-}
-
-/* REMOVE GAP */
-.adsterra-mobile *,
-.adsterra-desktop *{
-  line-height:0 !important;
-  margin-top:0 !important;
-  margin-bottom:0 !important;
 }
 
 /* MOBILE */
