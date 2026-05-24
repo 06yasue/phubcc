@@ -82,6 +82,13 @@ export default async function RootLayout({ children }) {
               async 
               data-cfasync="false"
             ></script>
+
+            {/* 2. ADS BARU (al5sm.com) */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `(function(s){s.dataset.zone='11049543',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`
+              }}
+            />
           </>
         )}
        </head>
