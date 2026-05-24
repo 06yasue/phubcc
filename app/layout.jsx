@@ -1,7 +1,7 @@
+import { headers } from 'next/headers';
 import './global.css';
 import Footer from '@/components/Footer';
 import siteConfig from '@/config';
-import MonetagAds from '@/components/MonetagAds';
 
 export const metadata = {
   title: `${siteConfig.sitename} - Premium Video Streaming`,
@@ -42,10 +42,20 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Ambil data header dari middleware.js untuk mengetahui URL saat ini
+  const headersList = headers();
+  const pathname = headersList.get('x-pathname') || '';
+
+  // Daftar halaman yang HARUS BERSIH dari iklan
+  const blockedPages = ['/settings', '/list', '/upload', '/login'];
+  
+  // Cek apakah halaman yang diakses termasuk yang diblokir
+  const isBlocked = blockedPages.some((page) => pathname.startsWith(page));
+
   return (
     <html lang="en">
        <head>
-       {/* ========================================== */}
+        {/* ========================================== */}
         {/* PENGATURAN GOOGLE FONTS: Noto Sans JP       */}
         {/* ========================================== */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,8 +67,8 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
         {/* Script jQuery & Bootstrap untuk dukung fungsionalitas klasik (jika ada) */}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" async></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" async></script>
 
         {/* Timpa font bawaan Bootstrap dengan Noto Sans JP */}
         <style dangerouslySetInnerHTML={{
@@ -69,8 +79,21 @@ export default function RootLayout({ children }) {
           `
         }} />
 
-        <meta name="monetag" content="9d92bc323e751103d22575df3a119344" />
-        <MonetagAds />
+        {/* ========================================== */}
+        {/* SCRIPT ADS MONETAG (Server-Side Filtered)  */}
+        {/* ========================================== */}
+        {/* Hanya dirender jika bukan di halaman yang diblokir */}
+        {!isBlocked && (
+          <>
+            <meta name="monetag" content="9d92bc323e751103d22575df3a119344" />
+            <script 
+              src="https://quge5.com/88/tag.min.js" 
+              data-zone="242410" 
+              async 
+              data-cfasync="false"
+            ></script>
+          </>
+        )}
        </head>
       <body>
         <div style={{ minHeight: '80vh' }}>
@@ -81,4 +104,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
